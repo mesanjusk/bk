@@ -4,22 +4,22 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['"Inter"', 'system-ui', 'sans-serif'],
+        serif: ['"Playfair Display"', '"Libre Baskerville"', 'Georgia', 'serif'],
+        sans: ['"Inter"', '"Lato"', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Institutional deep-green ink scale — used throughout as text/surface tones.
+        // Institutional deep-green scale, anchored on the brand primary #1F3D2B (sage-800).
         sage: {
-          50: '#eef2ee',
-          100: '#d9e3da',
-          200: '#b3c7b6',
-          300: '#87a58c',
-          400: '#5f8267',
-          500: '#3f6249',
-          600: '#2f4d38',
-          700: '#25402d',
-          800: '#1c3223',
-          900: '#0f1f14',
+          50: '#eef3ef',
+          100: '#d7e4da',
+          200: '#b0c9b6',
+          300: '#84a68f',
+          400: '#5c8267',
+          500: '#3c6248',
+          600: '#2c4e37',
+          700: '#24402d',
+          800: '#1f3d2b',
+          900: '#132318',
         },
         maroon: {
           50: '#f6ecec',
@@ -29,19 +29,21 @@ export default {
           600: '#5c1a25',
           700: '#441420',
         },
+        // Muted metallic gold accent, anchored on #C2A878.
         gold: {
-          300: '#e2c774',
-          400: '#c9a227',
-          500: '#b08d3f',
-          600: '#8f6f2e',
+          300: '#d9c49a',
+          400: '#c2a878',
+          500: '#a88f5f',
+          600: '#8a744a',
         },
-        cream: '#f8f3e7',
-        sand: '#efe4c9',
+        ink: '#1a1a1a',
+        cream: '#f8f5f0',
+        sand: '#efe8da',
       },
       boxShadow: {
-        soft: '0 4px 20px rgba(15, 31, 20, 0.08)',
-        book: '0 20px 45px rgba(15, 31, 20, 0.22)',
-        gilded: '0 0 0 1px rgba(201, 162, 39, 0.4), 0 18px 34px rgba(15, 31, 20, 0.28)',
+        soft: '0 10px 30px rgba(0, 0, 0, 0.08)',
+        book: '0 20px 45px rgba(0, 0, 0, 0.18)',
+        gilded: '0 0 0 1px rgba(194, 168, 120, 0.4), 0 18px 34px rgba(0, 0, 0, 0.22)',
       },
       borderRadius: {
         xl2: '1.25rem',

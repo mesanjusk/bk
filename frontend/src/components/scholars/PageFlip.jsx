@@ -33,7 +33,7 @@ export default function PageFlip({ scholars }) {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             style={{ transformStyle: 'preserve-3d', transformOrigin: direction > 0 ? 'left' : 'right' }}
           >
             {current.length === 0 ? (
@@ -57,8 +57,8 @@ export default function PageFlip({ scholars }) {
           >
             ← Previous
           </button>
-          <span className="text-xs uppercase tracking-wide text-gold-600">
-            Page {page + 1} of {pageCount}
+          <span className="font-serif text-xs uppercase tracking-wide text-gold-600">
+            {String(page + 1).padStart(2, '0')} / {String(pageCount).padStart(2, '0')}
           </span>
           <button
             type="button"

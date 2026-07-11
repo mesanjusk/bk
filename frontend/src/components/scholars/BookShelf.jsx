@@ -6,13 +6,10 @@ export default function BookShelf({ years }) {
   }
 
   return (
-    <div className="perspective-book">
-      <div className="flex flex-wrap items-end justify-center gap-8 rounded-2xl bg-gradient-to-b from-sand/60 to-transparent p-10">
-        {years.map((year, index) => (
-          <BookCard key={year} year={year} index={index} />
-        ))}
-      </div>
-      <div className="mx-auto -mt-2 h-3 w-[92%] rounded-full bg-sage-900/10 blur-sm" />
+    <div className="perspective-book grid grid-cols-1 place-items-center gap-12 rounded-2xl bg-gradient-to-b from-sand/50 to-transparent p-10 sm:grid-cols-2 lg:grid-cols-4">
+      {years.map((year, index) => (
+        <BookCard key={year} year={year} index={index} />
+      ))}
     </div>
   );
 }

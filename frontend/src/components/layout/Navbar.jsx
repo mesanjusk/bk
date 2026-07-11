@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { site } from '../../data/siteContent.js';
 
@@ -11,10 +11,24 @@ const links = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 12);
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-sage-100 bg-cream/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <header
+      className={`sticky top-0 z-50 h-[72px] transition-colors duration-300 ${
+        scrolled ? 'border-b border-sage-100 bg-cream/95 shadow-soft backdrop-blur' : 'border-b border-transparent bg-transparent'
+      }`}
+    >
+      <nav className="flex h-full items-center justify-between px-6 md:px-12">
         <NavLink to="/" className="font-serif text-xl font-semibold text-sage-800">
           {site.name}
         </NavLink>
@@ -49,7 +63,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <ul className="flex flex-col gap-4 border-t border-sage-100 px-6 py-4 text-sm font-medium text-sage-700 sm:hidden">
+        <ul className="flex flex-col gap-4 border-t border-sage-100 bg-cream px-6 py-4 text-sm font-medium text-sage-700 sm:hidden">
           {links.map((link) => (
             <li key={link.to}>
               <NavLink

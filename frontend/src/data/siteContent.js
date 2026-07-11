@@ -11,7 +11,7 @@ export const about = {
   mission:
     'To identify promising students from underserved communities and provide them with scholarships, mentorship, and a lasting support network.',
   story:
-    'Mita Foundation began in 2021 as a small group of alumni pooling resources to support a handful of students from their hometown. What started as an informal collection has grown into a structured scholarship program supporting dozens of scholars across multiple states, alongside health and livelihood initiatives for the wider community.',
+    'Mita Foundation began a decade ago as a small group of alumni pooling resources to support a handful of students from their hometown. What started as an informal collection has grown into a structured scholarship program supporting over 150 scholars across 25 states, alongside health and livelihood initiatives for the wider community.',
   founders: [
     {
       name: 'Meera Iyer',
@@ -30,18 +30,18 @@ export const about = {
     { title: 'Community', description: 'Lasting change happens when communities lead their own progress.' },
   ],
   timeline: [
-    { year: '2021', event: 'Mita Foundation founded with 5 scholars.' },
-    { year: '2022', event: 'Expanded to a formal scholarship program across two districts.' },
-    { year: '2023', event: 'Launched community health camps alongside the scholarship program.' },
-    { year: '2024', event: 'Reached 30+ scholars supported and introduced mentorship circles.' },
+    { year: '2016', event: 'Mita Foundation founded with 5 scholars.' },
+    { year: '2019', event: 'Expanded to a formal scholarship program across multiple states.' },
+    { year: '2022', event: 'Launched community health camps alongside the scholarship program.' },
+    { year: '2025', event: 'Reached 150+ scholars supported across 25 states.' },
   ],
 };
 
 export const impactStats = [
-  { label: 'Scholars Supported', value: '30+' },
-  { label: 'Years Active', value: '4' },
-  { label: 'Programs Running', value: '3' },
-  { label: 'Communities Reached', value: '6' },
+  { label: 'Scholars', value: '150+' },
+  { label: 'Years', value: '10' },
+  { label: 'States', value: '25' },
+  { label: 'Programs', value: '3' },
 ];
 
 export const programs = [
@@ -71,8 +71,7 @@ export const contactInfo = {
 
 export const library = {
   title: 'Meet Our Scholars',
-  intro:
-    'Every year is bound as its own volume in the Mita Scholars archive. Select a year to open its record.',
+  intro: 'Browse by year through our archival collection.',
 };
 
 const defaultYearQuote = 'Each name entered here is a promise kept — a door opened, a future underway.';

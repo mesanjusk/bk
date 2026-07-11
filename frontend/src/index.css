@@ -7,10 +7,10 @@ html {
 }
 
 body {
-  @apply bg-cream text-sage-900 font-sans antialiased;
+  @apply bg-cream text-ink font-sans antialiased;
   background-image:
-    radial-gradient(rgba(15, 31, 20, 0.035) 1px, transparent 1px),
-    radial-gradient(rgba(15, 31, 20, 0.02) 1px, transparent 1px);
+    radial-gradient(rgba(26, 26, 26, 0.035) 1px, transparent 1px),
+    radial-gradient(rgba(26, 26, 26, 0.02) 1px, transparent 1px);
   background-size: 3px 3px, 7px 7px;
   background-position: 0 0, 2px 3px;
 }

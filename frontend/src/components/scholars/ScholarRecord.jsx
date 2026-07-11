@@ -1,6 +1,6 @@
 export default function ScholarRecord({ scholar, index }) {
   return (
-    <div className="border-b border-sage-200/70 py-6 first:pt-0 last:border-none last:pb-0">
+    <div className="border-b border-sage-200/70 py-4 first:pt-0 last:border-none last:pb-0">
       <div className="flex gap-5">
         {scholar.photoUrl ? (
           <img

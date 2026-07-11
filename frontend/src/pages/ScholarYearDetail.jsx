@@ -47,10 +47,10 @@ export default function ScholarYearDetail() {
           initial={{ opacity: 0, rotateX: -6, y: 24 }}
           animate={{ opacity: 1, rotateX: 0, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="perspective-book mt-10 overflow-hidden rounded-lg bg-cream shadow-book ring-1 ring-gold-400/30 md:grid md:grid-cols-2"
+          className="perspective-book mx-auto mt-10 overflow-hidden rounded-lg bg-cream shadow-book ring-1 ring-gold-400/30 md:grid md:h-[600px] md:w-[900px] md:grid-cols-2"
           style={{ transformStyle: 'preserve-3d' }}
         >
-          <div className="border-b border-gold-400/20 bg-sand/40 p-8 md:border-b-0 md:border-r">
+          <div className="flex flex-col justify-center border-b border-gold-400/20 bg-sand/40 p-8 md:border-b-0 md:border-r md:p-12">
             <p className="text-xs font-medium uppercase tracking-[0.35em] text-gold-600">Mita Scholars</p>
             <h1 className="mt-3 font-serif text-4xl font-semibold text-sage-900">{year}</h1>
             <p className="mt-6 font-serif text-lg italic leading-relaxed text-sage-700">
@@ -62,7 +62,7 @@ export default function ScholarYearDetail() {
             </p>
           </div>
 
-          <div className="p-8">
+          <div className="overflow-y-auto p-8 md:p-10">
             <p className="mb-4 text-xs font-medium uppercase tracking-[0.3em] text-sage-500">
               Scholar Register
             </p>
