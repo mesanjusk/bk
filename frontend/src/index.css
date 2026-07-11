@@ -8,6 +8,11 @@ html {
 
 body {
   @apply bg-cream text-sage-900 font-sans antialiased;
+  background-image:
+    radial-gradient(rgba(15, 31, 20, 0.035) 1px, transparent 1px),
+    radial-gradient(rgba(15, 31, 20, 0.02) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 2px 3px;
 }
 
 h1,
@@ -15,4 +20,16 @@ h2,
 h3,
 h4 {
   @apply font-serif;
+}
+
+.perspective-book {
+  perspective: 2200px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
 }

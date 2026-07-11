@@ -36,7 +36,9 @@ export default function Navbar() {
                 to={link.to}
                 end={link.to === '/'}
                 className={({ isActive }) =>
-                  `transition-colors duration-200 hover:text-sage-900 ${isActive ? 'text-sage-900' : ''}`
+                  `border-b transition-colors duration-200 hover:text-sage-900 ${
+                    isActive ? 'border-gold-500 text-sage-900' : 'border-transparent'
+                  }`
                 }
               >
                 {link.label}

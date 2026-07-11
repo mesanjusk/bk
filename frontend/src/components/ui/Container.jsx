@@ -1,3 +1,3 @@
-export default function Container({ children, className = '' }) {
-  return <div className={`mx-auto w-full max-w-6xl px-6 ${className}`}>{children}</div>;
+export default function Container({ children, className = '', maxWidth = 'max-w-6xl' }) {
+  return <div className={`mx-auto w-full ${maxWidth} px-6 ${className}`}>{children}</div>;
 }

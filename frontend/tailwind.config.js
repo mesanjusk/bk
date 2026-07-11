@@ -4,27 +4,44 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
         sans: ['"Inter"', 'system-ui', 'sans-serif'],
       },
       colors: {
+        // Institutional deep-green ink scale — used throughout as text/surface tones.
         sage: {
-          50: '#f4f7f4',
-          100: '#e6ede6',
-          200: '#cddccd',
-          300: '#a9c2a9',
-          400: '#7fa17f',
-          500: '#5f8560',
-          600: '#4a6b4b',
-          700: '#3d573e',
-          800: '#334634',
-          900: '#2b3a2c',
+          50: '#eef2ee',
+          100: '#d9e3da',
+          200: '#b3c7b6',
+          300: '#87a58c',
+          400: '#5f8267',
+          500: '#3f6249',
+          600: '#2f4d38',
+          700: '#25402d',
+          800: '#1c3223',
+          900: '#0f1f14',
         },
-        cream: '#faf8f3',
-        sand: '#f0ebe1',
+        maroon: {
+          50: '#f6ecec',
+          100: '#e8cfd1',
+          400: '#8a2f3a',
+          500: '#7a2331',
+          600: '#5c1a25',
+          700: '#441420',
+        },
+        gold: {
+          300: '#e2c774',
+          400: '#c9a227',
+          500: '#b08d3f',
+          600: '#8f6f2e',
+        },
+        cream: '#f8f3e7',
+        sand: '#efe4c9',
       },
       boxShadow: {
-        soft: '0 4px 20px rgba(0, 0, 0, 0.06)',
+        soft: '0 4px 20px rgba(15, 31, 20, 0.08)',
+        book: '0 20px 45px rgba(15, 31, 20, 0.22)',
+        gilded: '0 0 0 1px rgba(201, 162, 39, 0.4), 0 18px 34px rgba(15, 31, 20, 0.28)',
       },
       borderRadius: {
         xl2: '1.25rem',
@@ -36,7 +53,10 @@ export default {
         },
       },
       animation: {
-        fadeIn: 'fadeIn 0.7s ease-out both',
+        fadeIn: 'fadeIn 0.9s ease-out both',
+      },
+      transitionTimingFunction: {
+        luxury: 'cubic-bezier(0.22, 1, 0.36, 1)',
       },
     },
   },

@@ -68,3 +68,38 @@ export const contactInfo = {
   phone: '+91 98765 43210',
   address: 'Pune, Maharashtra, India',
 };
+
+export const library = {
+  title: 'Meet Our Scholars',
+  intro:
+    'Every year is bound as its own volume in the Mita Scholars archive. Select a year to open its record.',
+};
+
+const defaultYearQuote = 'Each name entered here is a promise kept — a door opened, a future underway.';
+
+export const yearNotes = {
+  2024: {
+    quote: 'The record of 2024 — a cohort defined by resolve, and by the communities that shaped them.',
+    description:
+      'This volume holds the twelfth cohort admitted into the Mita Scholars program, drawn from four states and recommended by their district committees.',
+  },
+  2023: {
+    quote: 'The record of 2023 — students who turned local challenges into fields of study.',
+    description:
+      'This volume holds scholars selected for their academic merit and their commitment to returning knowledge to their home communities.',
+  },
+  2022: {
+    quote: 'The record of 2022 — our early cohort, still closely mentored by the founding circle.',
+    description:
+      'This volume holds the scholars who joined as the program moved from an informal collection to a structured scholarship.',
+  },
+};
+
+export function getYearNote(year) {
+  return (
+    yearNotes[year] || {
+      quote: defaultYearQuote,
+      description: `This volume holds the Mita Scholars cohort admitted in ${year}.`,
+    }
+  );
+}

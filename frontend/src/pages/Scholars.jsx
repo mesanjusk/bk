@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
 import Section from '../components/ui/Section.jsx';
-import ScholarGrid from '../components/scholars/ScholarGrid.jsx';
-import YearFilter from '../components/scholars/YearFilter.jsx';
-import { fetchScholars } from '../api/client.js';
-import { scholarsFallback, getFallbackYears } from '../data/scholarsFallback.js';
+import BookShelf from '../components/scholars/BookShelf.jsx';
+import { fetchYears } from '../api/client.js';
+import { getFallbackYears } from '../data/scholarsFallback.js';
+import { library } from '../data/siteContent.js';
 
 export default function Scholars() {
-  const [scholars, setScholars] = useState([]);
-  const [activeYear, setActiveYear] = useState(null);
+  const [years, setYears] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
 
-    fetchScholars()
+    fetchYears()
       .then((data) => {
-        if (isMounted) setScholars(data.length ? data : scholarsFallback);
+        if (isMounted) setYears(data.length ? data : getFallbackYears());
       })
       .catch(() => {
-        if (isMounted) setScholars(scholarsFallback);
+        if (isMounted) setYears(getFallbackYears());
       })
       .finally(() => {
         if (isMounted) setLoading(false);
@@ -29,28 +28,19 @@ export default function Scholars() {
     };
   }, []);
 
-  const years = scholars.length
-    ? [...new Set(scholars.map((s) => s.year))].sort((a, b) => b - a)
-    : getFallbackYears();
-
-  const visibleScholars = activeYear ? scholars.filter((s) => s.year === activeYear) : scholars;
-
   return (
     <Section>
-      <h1 className="text-center text-4xl font-semibold text-sage-900">Mita Scholars</h1>
-      <p className="mx-auto mt-4 max-w-xl text-center text-sage-600">
-        Meet the students supported by our scholarship program, grouped by year.
+      <p className="text-center text-xs font-medium uppercase tracking-[0.35em] text-gold-600">
+        The Archive
       </p>
+      <h1 className="mt-3 text-center text-4xl font-semibold text-sage-900">{library.title}</h1>
+      <p className="mx-auto mt-4 max-w-xl text-center text-sage-600">{library.intro}</p>
 
-      <div className="mt-10">
-        <YearFilter years={years} activeYear={activeYear} onSelect={setActiveYear} />
-      </div>
-
-      <div className="mt-12">
+      <div className="mt-16">
         {loading ? (
-          <p className="text-center text-sage-500">Loading scholars…</p>
+          <p className="text-center text-sage-500">Opening the archive…</p>
         ) : (
-          <ScholarGrid scholars={visibleScholars} />
+          <BookShelf years={years} />
         )}
       </div>
     </Section>
