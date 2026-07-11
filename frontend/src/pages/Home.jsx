@@ -1,0 +1,17 @@
+import Hero from '../components/home/Hero.jsx';
+import AboutSection from '../components/home/AboutSection.jsx';
+import ImpactStats from '../components/home/ImpactStats.jsx';
+import ProgramsGrid from '../components/home/ProgramsGrid.jsx';
+import CTASection from '../components/home/CTASection.jsx';
+
+export default function Home() {
+  return (
+    <>
+      <Hero />
+      <AboutSection />
+      <ImpactStats />
+      <ProgramsGrid />
+      <CTASection />
+    </>
+  );
+}
