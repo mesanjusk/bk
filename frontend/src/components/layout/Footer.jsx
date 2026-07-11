@@ -30,7 +30,10 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-sage-200 py-4 text-center text-xs text-sage-500">
-        © {new Date().getFullYear()} {site.name}. All rights reserved.
+        © {new Date().getFullYear()} {site.name}. All rights reserved.{' '}
+        <Link to="/admin/login" className="text-sage-400 hover:text-sage-600">
+          Admin
+        </Link>
       </div>
     </footer>
   );

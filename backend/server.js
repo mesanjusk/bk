@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./src/config/db');
 const scholarsRouter = require('./src/routes/scholars');
 const contactRouter = require('./src/routes/contact');
+const authRouter = require('./src/routes/auth');
 const { notFound, errorHandler } = require('./src/middleware/errorHandler');
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
 app.use(express.json());
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+app.use('/api/auth', authRouter);
 app.use('/api/scholars', scholarsRouter);
 app.use('/api/contact', contactRouter);
 

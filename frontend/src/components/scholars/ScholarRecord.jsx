@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function ScholarRecord({ scholar, index }) {
   return (
     <div className="border-b border-sage-200/70 py-4 first:pt-0 last:border-none last:pb-0">
@@ -16,7 +18,12 @@ export default function ScholarRecord({ scholar, index }) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline justify-between gap-4">
-            <h3 className="font-serif text-xl font-semibold text-sage-900">{scholar.name}</h3>
+            <Link
+              to={`/scholars/${scholar.year}/${scholar._id}`}
+              className="font-serif text-xl font-semibold text-sage-900 hover:text-gold-600"
+            >
+              {scholar.name}
+            </Link>
             <span className="whitespace-nowrap text-xs font-medium uppercase tracking-wide text-gold-600">
               Entry {String(index + 1).padStart(2, '0')}
             </span>

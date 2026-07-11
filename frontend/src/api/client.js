@@ -1,10 +1,22 @@
 const API_URL = import.meta.env.VITE_API_URL || 'https://bk-vdkf.onrender.com/api';
 
-async function request(path) {
-  const response = await fetch(`${API_URL}${path}`);
+async function request(path, { method = 'GET', body, token } = {}) {
+  const headers = {};
+  if (body) headers['Content-Type'] = 'application/json';
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const response = await fetch(`${API_URL}${path}`, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
   if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`);
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data.error || `Request failed: ${response.status}`);
   }
+
+  if (response.status === 204) return null;
   return response.json();
 }
 
@@ -20,15 +32,26 @@ export function fetchYears() {
   return request('/scholars/years');
 }
 
-export async function submitContactMessage(payload) {
-  const response = await fetch(`${API_URL}/contact`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-  if (!response.ok) {
-    const data = await response.json().catch(() => ({}));
-    throw new Error(data.error || 'Failed to send message.');
-  }
-  return response.json();
+export function fetchScholarById(id) {
+  return request(`/scholars/${id}`);
+}
+
+export function submitContactMessage(payload) {
+  return request('/contact', { method: 'POST', body: payload });
+}
+
+export function login(username, password) {
+  return request('/auth/login', { method: 'POST', body: { username, password } });
+}
+
+export function createScholar(payload, token) {
+  return request('/scholars', { method: 'POST', body: payload, token });
+}
+
+export function updateScholar(id, payload, token) {
+  return request(`/scholars/${id}`, { method: 'PUT', body: payload, token });
+}
+
+export function deleteScholar(id, token) {
+  return request(`/scholars/${id}`, { method: 'DELETE', token });
 }
