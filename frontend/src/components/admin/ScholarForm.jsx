@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext.jsx';
+import { uploadImage } from '../../api/client.js';
 
 const emptyForm = {
   name: '',
@@ -29,11 +31,31 @@ const inputClasses =
   'mt-1 w-full rounded-lg border border-sage-200 px-4 py-2 text-sm focus:border-sage-500 focus:outline-none';
 
 export default function ScholarForm({ initialScholar, onSubmit, submitLabel = 'Save', submitting = false, error }) {
+  const { token } = useAuth();
   const [form, setForm] = useState(() => toFormValues(initialScholar));
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
 
   function handleChange(event) {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+  }
+
+  async function handleFileChange(event) {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+
+    setUploading(true);
+    setUploadError('');
+    try {
+      const { url } = await uploadImage(file, token);
+      setForm((prev) => ({ ...prev, photoUrl: url }));
+    } catch (err) {
+      setUploadError(err.message);
+    } finally {
+      setUploading(false);
+    }
   }
 
   function handleSubmit(event) {
@@ -90,14 +112,41 @@ export default function ScholarForm({ initialScholar, onSubmit, submitLabel = 'S
       </div>
 
       <div>
-        <label htmlFor="photoUrl" className="text-sm font-medium text-sage-700">Photo URL</label>
+        <label className="text-sm font-medium text-sage-700">Photo</label>
+        <div className="mt-1 flex items-center gap-4">
+          {form.photoUrl ? (
+            <img
+              src={form.photoUrl}
+              alt="Scholar preview"
+              className="h-16 w-16 flex-shrink-0 rounded-sm object-cover ring-1 ring-gold-400/30"
+            />
+          ) : (
+            <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-sm bg-sand text-[10px] uppercase text-sage-400 ring-1 ring-gold-400/30">
+              No photo
+            </div>
+          )}
+
+          <label className="cursor-pointer rounded-full border border-sage-600 px-4 py-2 text-xs font-medium uppercase tracking-wide text-sage-700 transition-colors hover:bg-sage-50">
+            {uploading ? 'Uploading…' : 'Upload Photo'}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              disabled={uploading}
+              className="hidden"
+            />
+          </label>
+        </div>
+
+        {uploadError && <p className="mt-2 text-xs text-red-600">{uploadError}</p>}
+
         <input
           id="photoUrl"
           name="photoUrl"
-          placeholder="https://…"
+          placeholder="or paste an image URL"
           value={form.photoUrl}
           onChange={handleChange}
-          className={inputClasses}
+          className={`${inputClasses} mt-3`}
         />
       </div>
 
@@ -139,7 +188,7 @@ export default function ScholarForm({ initialScholar, onSubmit, submitLabel = 'S
 
       <button
         type="submit"
-        disabled={submitting}
+        disabled={submitting || uploading}
         className="inline-flex items-center justify-center rounded-full bg-sage-800 px-6 py-3 text-xs font-medium uppercase tracking-[0.2em] text-cream shadow-soft ring-1 ring-gold-400/40 transition-colors duration-300 hover:bg-sage-900 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {submitting ? 'Saving…' : submitLabel}

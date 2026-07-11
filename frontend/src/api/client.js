@@ -55,3 +55,21 @@ export function updateScholar(id, payload, token) {
 export function deleteScholar(id, token) {
   return request(`/scholars/${id}`, { method: 'DELETE', token });
 }
+
+export async function uploadImage(file, token) {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await fetch(`${API_URL}/uploads`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data.error || `Upload failed: ${response.status}`);
+  }
+
+  return response.json();
+}

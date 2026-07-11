@@ -5,6 +5,7 @@ const connectDB = require('./src/config/db');
 const scholarsRouter = require('./src/routes/scholars');
 const contactRouter = require('./src/routes/contact');
 const authRouter = require('./src/routes/auth');
+const uploadRouter = require('./src/routes/upload');
 const { notFound, errorHandler } = require('./src/middleware/errorHandler');
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 app.use('/api/auth', authRouter);
+app.use('/api/uploads', uploadRouter);
 app.use('/api/scholars', scholarsRouter);
 app.use('/api/contact', contactRouter);
 
