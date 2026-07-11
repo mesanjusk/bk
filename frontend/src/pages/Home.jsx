@@ -1,6 +1,7 @@
 import Hero from '../components/home/Hero.jsx';
 import AboutSection from '../components/home/AboutSection.jsx';
 import ImpactStats from '../components/home/ImpactStats.jsx';
+import FieldsOfWork from '../components/home/FieldsOfWork.jsx';
 import ProgramsGrid from '../components/home/ProgramsGrid.jsx';
 import CTASection from '../components/home/CTASection.jsx';
 
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero />
       <AboutSection />
       <ImpactStats />
+      <FieldsOfWork />
       <ProgramsGrid />
       <CTASection />
     </>
