@@ -5,6 +5,7 @@ import { site } from '../../data/siteContent.js';
 const links = [
   { to: '/', label: 'Home' },
   { to: '/scholars', label: 'Scholars' },
+  { to: '/census', label: 'Census' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
 ];

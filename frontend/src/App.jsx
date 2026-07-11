@@ -6,6 +6,7 @@ import Home from './pages/Home.jsx';
 import Scholars from './pages/Scholars.jsx';
 import ScholarYearDetail from './pages/ScholarYearDetail.jsx';
 import ScholarDetail from './pages/ScholarDetail.jsx';
+import Census from './pages/Census.jsx';
 import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
 import AdminLogin from './pages/admin/AdminLogin.jsx';
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/scholars" element={<Scholars />} />
           <Route path="/scholars/:year" element={<ScholarYearDetail />} />
           <Route path="/scholars/:year/:id" element={<ScholarDetail />} />
+          <Route path="/census" element={<Census />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
 
