@@ -56,6 +56,14 @@ export function deleteScholar(id, token) {
   return request(`/scholars/${id}`, { method: 'DELETE', token });
 }
 
+export function fetchSettings() {
+  return request('/settings');
+}
+
+export function updateSettings(payload, token) {
+  return request('/settings', { method: 'PUT', body: payload, token });
+}
+
 export async function uploadImage(file, token) {
   const formData = new FormData();
   formData.append('image', file);

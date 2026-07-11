@@ -1,10 +1,28 @@
+import { useEffect, useState } from 'react';
 import Button from '../ui/Button.jsx';
 import Container from '../ui/Container.jsx';
 import MediaFrame from '../ui/MediaFrame.jsx';
+import ArchiveVisual from './ArchiveVisual.jsx';
 import { content } from '../../data/content.js';
+import { fetchSettings } from '../../api/client.js';
 
 export default function Hero() {
-  const { eyebrow, title, subtitle, ctaPrimary, ctaSecondary, media } = content.hero;
+  const { eyebrow, title, subtitle, ctaPrimary, ctaSecondary } = content.hero;
+  const [heroMedia, setHeroMedia] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchSettings()
+      .then((settings) => {
+        if (isMounted && settings.heroMediaUrl) {
+          setHeroMedia({ type: settings.heroMediaType, src: settings.heroMediaUrl });
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <section className="flex min-h-[90vh] items-center bg-gradient-to-b from-sand to-cream">
@@ -27,13 +45,17 @@ export default function Hero() {
             </div>
           </div>
 
-          <MediaFrame
-            type={media.type}
-            src={media.src}
-            alt={title}
-            aspect="aspect-[4/3]"
-            className="hidden ring-1 ring-gold-400/30 md:block"
-          />
+          {heroMedia ? (
+            <MediaFrame
+              type={heroMedia.type}
+              src={heroMedia.src}
+              alt={title}
+              aspect="aspect-[4/3]"
+              className="hidden ring-1 ring-gold-400/30 md:block"
+            />
+          ) : (
+            <ArchiveVisual className="hidden md:block" />
+          )}
         </div>
       </Container>
     </section>

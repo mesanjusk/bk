@@ -44,6 +44,7 @@ export default function AdminDashboard() {
         <h1 className="text-3xl font-semibold text-sage-900">Manage Scholars</h1>
         <div className="flex gap-3">
           <Button to="/admin/scholars/new">Add Scholar</Button>
+          <Button to="/admin/settings" variant="secondary">Site Settings</Button>
           <Button variant="secondary" onClick={logout}>Log Out</Button>
         </div>
       </div>

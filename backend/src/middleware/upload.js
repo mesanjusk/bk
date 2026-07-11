@@ -1,10 +1,10 @@
 const multer = require('multer');
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB, generous enough for a short hero video
 
 function fileFilter(req, file, cb) {
-  if (!file.mimetype.startsWith('image/')) {
-    return cb(new Error('Only image files are allowed.'));
+  if (!file.mimetype.startsWith('image/') && !file.mimetype.startsWith('video/')) {
+    return cb(new Error('Only image or video files are allowed.'));
   }
   cb(null, true);
 }

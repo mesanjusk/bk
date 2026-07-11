@@ -13,6 +13,7 @@ import AdminLogin from './pages/admin/AdminLogin.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 import AdminScholarNew from './pages/admin/AdminScholarNew.jsx';
 import AdminScholarEdit from './pages/admin/AdminScholarEdit.jsx';
+import AdminSettings from './pages/admin/AdminSettings.jsx';
 
 export default function App() {
   return (
@@ -49,6 +50,14 @@ export default function App() {
             element={
               <RequireAuth>
                 <AdminScholarEdit />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/settings"
+            element={
+              <RequireAuth>
+                <AdminSettings />
               </RequireAuth>
             }
           />
