@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import ScholarRecord from './ScholarRecord.jsx';
 
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 1;
 
 const variants = {
   enter: (direction) => ({ rotateY: direction > 0 ? 55 : -55, opacity: 0 }),
@@ -24,7 +24,7 @@ export default function PageFlip({ scholars }) {
 
   return (
     <div>
-      <div className="perspective-book min-h-[280px]">
+      <div className="perspective-book min-h-[420px]">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={page}
@@ -37,7 +37,7 @@ export default function PageFlip({ scholars }) {
             style={{ transformStyle: 'preserve-3d', transformOrigin: direction > 0 ? 'left' : 'right' }}
           >
             {current.length === 0 ? (
-              <p className="text-sm text-sage-500">No scholars recorded for this page.</p>
+              <p className="text-center text-sm text-sage-500">No scholars recorded for this page.</p>
             ) : (
               current.map((scholar, i) => (
                 <ScholarRecord key={scholar._id} scholar={scholar} index={page * PAGE_SIZE + i} />
