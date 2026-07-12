@@ -14,6 +14,9 @@ import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 import AdminScholarNew from './pages/admin/AdminScholarNew.jsx';
 import AdminScholarEdit from './pages/admin/AdminScholarEdit.jsx';
 import AdminSettings from './pages/admin/AdminSettings.jsx';
+import AdminStoriesDashboard from './pages/admin/AdminStoriesDashboard.jsx';
+import AdminStoryNew from './pages/admin/AdminStoryNew.jsx';
+import AdminStoryEdit from './pages/admin/AdminStoryEdit.jsx';
 
 export default function App() {
   return (
@@ -58,6 +61,30 @@ export default function App() {
             element={
               <RequireAuth>
                 <AdminSettings />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/stories"
+            element={
+              <RequireAuth>
+                <AdminStoriesDashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/stories/new"
+            element={
+              <RequireAuth>
+                <AdminStoryNew />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/stories/:id/edit"
+            element={
+              <RequireAuth>
+                <AdminStoryEdit />
               </RequireAuth>
             }
           />

@@ -56,6 +56,26 @@ export function deleteScholar(id, token) {
   return request(`/scholars/${id}`, { method: 'DELETE', token });
 }
 
+export function fetchStories() {
+  return request('/stories');
+}
+
+export function fetchStoryById(id, token) {
+  return request(`/stories/${id}`, { token });
+}
+
+export function createStory(payload, token) {
+  return request('/stories', { method: 'POST', body: payload, token });
+}
+
+export function updateStory(id, payload, token) {
+  return request(`/stories/${id}`, { method: 'PUT', body: payload, token });
+}
+
+export function deleteStory(id, token) {
+  return request(`/stories/${id}`, { method: 'DELETE', token });
+}
+
 export function fetchSettings() {
   return request('/settings');
 }

@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./src/config/db');
 const scholarsRouter = require('./src/routes/scholars');
+const storiesRouter = require('./src/routes/stories');
 const contactRouter = require('./src/routes/contact');
 const authRouter = require('./src/routes/auth');
 const uploadRouter = require('./src/routes/upload');
@@ -22,6 +23,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/uploads', uploadRouter);
 app.use('/api/settings', settingsRouter);
 app.use('/api/scholars', scholarsRouter);
+app.use('/api/stories', storiesRouter);
 app.use('/api/contact', contactRouter);
 
 app.use(notFound);

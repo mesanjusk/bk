@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import MediaFrame from '../ui/MediaFrame.jsx';
 
 export default function StoryCard({ story }) {
   const [expanded, setExpanded] = useState(false);
@@ -7,14 +6,11 @@ export default function StoryCard({ story }) {
   return (
     <div className="group px-8 py-10 transition-all duration-300 hover:z-10 hover:scale-[1.03] hover:shadow-soft sm:py-0">
       <div className="flex items-center gap-4">
-        {story.media?.src ? (
-          <MediaFrame
-            type={story.media.type}
-            src={story.media.src}
+        {story.photoUrl ? (
+          <img
+            src={story.photoUrl}
             alt={story.name}
-            aspect="aspect-square"
-            rounded="rounded-full"
-            className="h-14 w-14 flex-shrink-0 ring-1 ring-gold-400/30"
+            className="h-14 w-14 flex-shrink-0 rounded-full object-cover ring-1 ring-gold-400/30"
           />
         ) : (
           <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-sand font-serif text-xl text-sage-600 ring-1 ring-gold-400/30">

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Section from '../../components/ui/Section.jsx';
+import Button from '../../components/ui/Button.jsx';
 import MediaFrame from '../../components/ui/MediaFrame.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { fetchSettings, updateSettings, uploadImage } from '../../api/client.js';
@@ -41,7 +42,13 @@ export default function AdminSettings() {
 
   return (
     <Section maxWidth="max-w-2xl">
-      <h1 className="text-3xl font-semibold text-sage-900">Site Settings</h1>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-3xl font-semibold text-sage-900">Site Settings</h1>
+        <div className="flex gap-3">
+          <Button to="/admin" variant="secondary">Scholars</Button>
+          <Button to="/admin/stories" variant="secondary">Stories</Button>
+        </div>
+      </div>
       <p className="mt-2 text-sm text-sage-600">
         Replace the homepage hero image or video. It appears immediately across the site.
       </p>
