@@ -46,9 +46,11 @@ Frontend runs on `http://localhost:5173` by default.
 - **Backend (Render)**: set the project root to `backend/`, build command
   `npm install`, start command `npm start`. Set `MONGODB_URI`,
   `CORS_ORIGIN` (your Vercel URL) and `PORT` environment variables. Also set
-  `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `JWT_SECRET` (admin login) and
-  `CLOUDINARY_URL` (image uploads) — these are declared in `render.yaml`
-  but must be filled in with real values in the Render dashboard.
+  `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `JWT_SECRET` (admin login) and either
+  `CLOUDINARY_URL` or the three separate `CLOUDINARY_CLOUD_NAME` /
+  `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` values from your Cloudinary
+  dashboard (image uploads) — these are declared in `render.yaml` but must
+  be filled in with real values in the Render dashboard.
 
 ## Admin
 
