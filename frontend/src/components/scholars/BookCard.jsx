@@ -44,7 +44,7 @@ export default function BookCard({ year, index = 0 }) {
         type="button"
         layout
         onClick={handleClick}
-        aria-label={`Open Mita Scholars ${year}`}
+        aria-label={`Open Badhte Kadam Scholars ${year}`}
         className={`group bg-gradient-to-br from-white/10 to-black/10 text-cream shadow-book focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${cover} ${
           centering
             ? 'fixed inset-0 z-[60] m-auto h-96 w-64 rounded-md'
@@ -67,7 +67,7 @@ export default function BookCard({ year, index = 0 }) {
         <span className="flex h-full items-center justify-center py-8">
           <span className="flex [writing-mode:vertical-rl] items-center gap-6 rotate-180">
             <span className="text-[10px] font-medium uppercase tracking-[0.35em] text-gold-300">
-              Mita Scholars
+              Badhte Kadam Scholars
             </span>
             <span className="font-serif text-3xl font-semibold">{year}</span>
           </span>

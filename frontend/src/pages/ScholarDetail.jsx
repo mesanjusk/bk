@@ -40,7 +40,7 @@ export default function ScholarDetail() {
   return (
     <Section maxWidth="max-w-3xl">
       <Link to={`/scholars/${year}`} className="text-sm font-medium text-sage-600 hover:text-sage-900">
-        ← Back to Mita Scholars {year}
+        ← Back to Badhte Kadam Scholars {year}
       </Link>
 
       {loading ? (
@@ -58,13 +58,13 @@ export default function ScholarDetail() {
               />
             ) : (
               <div className="flex h-40 w-32 flex-shrink-0 items-center justify-center rounded-sm border border-gold-400/40 bg-sand font-serif text-4xl text-sage-500">
-                {scholar.name.charAt(0)}
+                {scholar.name?.charAt(0) || '?'}
               </div>
             )}
 
             <div className="flex-1">
               <p className="text-xs font-medium uppercase tracking-[0.3em] text-gold-600">
-                Mita Scholars {scholar.year}
+                Badhte Kadam Scholars {scholar.year}
               </p>
               <h1 className="mt-2 font-serif text-3xl font-semibold text-sage-900">{scholar.name}</h1>
 

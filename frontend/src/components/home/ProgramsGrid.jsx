@@ -14,8 +14,12 @@ export default function ProgramsGrid() {
             their community.
           </p>
           <ul className="mt-8 space-y-6">
-            {programs.map((program) => (
-              <li key={program.title} className="border-l-2 border-gold-400/50 pl-5">
+            {programs.map((program, index) => (
+              <li
+                key={program.title}
+                id={`program-${index}`}
+                className="scroll-mt-28 border-l-2 border-gold-400/50 pl-5"
+              >
                 <h3 className="font-serif text-lg font-semibold text-sage-800">{program.title}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-sage-600">{program.description}</p>
               </li>

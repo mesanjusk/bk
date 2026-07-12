@@ -51,7 +51,7 @@ export default function ScholarYearDetail() {
           style={{ transformStyle: 'preserve-3d' }}
         >
           <div className="flex flex-col justify-center border-b border-gold-400/20 bg-sand/40 p-8 md:border-b-0 md:border-r md:p-12">
-            <p className="text-xs font-medium uppercase tracking-[0.35em] text-gold-600">Mita Scholars</p>
+            <p className="text-xs font-medium uppercase tracking-[0.35em] text-gold-600">Badhte Kadam Scholars</p>
             <h1 className="mt-3 font-serif text-4xl font-semibold text-sage-900">{year}</h1>
             <p className="mt-6 font-serif text-lg italic leading-relaxed text-sage-700">
               &ldquo;{note.quote}&rdquo;

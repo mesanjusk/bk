@@ -4,12 +4,12 @@
 
 export const content = {
   site: {
-    name: 'Mita Foundation',
+    name: 'Badhte Kadam',
     tagline: 'Opening doors to education, one scholar at a time.',
   },
 
   hero: {
-    eyebrow: 'Mita Foundation',
+    eyebrow: 'Badhte Kadam',
     title: 'Preserving Excellence, Year After Year.',
     subtitle: 'An archive of scholars shaping the future.',
     ctaPrimary: { label: 'Meet Our Scholars', to: '/scholars' },
