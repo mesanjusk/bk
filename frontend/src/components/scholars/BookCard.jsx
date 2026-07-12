@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,8 +10,25 @@ export default function BookCard({ year, index = 0 }) {
   const [centering, setCentering] = useState(false);
   const [opening, setOpening] = useState(false);
   const navigate = useNavigate();
+  const navigated = useRef(false);
   const cover = covers[index % covers.length];
   const tilt = tilts[index % tilts.length];
+
+  function goToYear() {
+    if (navigated.current) return;
+    navigated.current = true;
+    navigate(`/scholars/${year}`);
+  }
+
+  useEffect(() => {
+    if (!centering) return undefined;
+    // Safety net: the layout/rotate animation callbacks below don't always
+    // fire (framer-motion can drop them when layout + animate combine), so
+    // this guarantees the click always ends in navigation.
+    const timeout = window.setTimeout(goToYear, 900);
+    return () => window.clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [centering]);
 
   function handleClick() {
     if (centering) return;
@@ -41,7 +58,7 @@ export default function BookCard({ year, index = 0 }) {
           if (centering && !opening) setOpening(true);
         }}
         onAnimationComplete={() => {
-          if (opening) navigate(`/scholars/${year}`);
+          if (opening) goToYear();
         }}
       >
         <span className="pointer-events-none absolute inset-y-4 left-3 w-px bg-gold-400/60" />
