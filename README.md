@@ -1,4 +1,4 @@
-# Mita Foundation — NGO Website
+# Badhte Kadam — NGO Website
 
 A clean, minimal MERN-stack website for an NGO. Monorepo with a React
 frontend (deployed on Vercel) and an Express/MongoDB backend (deployed on

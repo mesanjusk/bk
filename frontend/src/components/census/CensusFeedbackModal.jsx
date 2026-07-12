@@ -44,7 +44,7 @@ export default function CensusFeedbackModal() {
             </button>
 
             <div className="p-8 sm:p-10">
-              <p className="text-xs font-medium uppercase tracking-[0.3em] text-gold-600">Mita Foundation</p>
+              <p className="text-xs font-medium uppercase tracking-[0.3em] text-gold-600">Badhte Kadam</p>
               <h2 className="mt-3 font-serif text-2xl font-semibold leading-tight text-sage-900">
                 Your feedback <span className="text-gold-600">can make a difference!</span>
               </h2>

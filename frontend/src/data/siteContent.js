@@ -1,17 +1,17 @@
 export const site = {
-  name: 'Mita Foundation',
+  name: 'Badhte Kadam',
   tagline: 'Opening doors to education, one scholar at a time.',
 };
 
 export const about = {
   intro:
-    'Mita Foundation is a community-driven nonprofit dedicated to expanding access to education for first-generation learners. We believe that talent is universal, but opportunity is not — so we work to close that gap.',
+    'Badhte Kadam is a community-driven nonprofit dedicated to expanding access to education for first-generation learners. We believe that talent is universal, but opportunity is not — so we work to close that gap.',
   vision:
     'A world where every capable student, regardless of background, has the resources and support to pursue their education.',
   mission:
     'To identify promising students from underserved communities and provide them with scholarships, mentorship, and a lasting support network.',
   story:
-    'Mita Foundation began a decade ago as a small group of alumni pooling resources to support a handful of students from their hometown. What started as an informal collection has grown into a structured scholarship program supporting over 150 scholars across 25 states, alongside health and livelihood initiatives for the wider community.',
+    'Badhte Kadam began a decade ago as a small group of alumni pooling resources to support a handful of students from their hometown. What started as an informal collection has grown into a structured scholarship program supporting over 150 scholars across 25 states, alongside health and livelihood initiatives for the wider community.',
   founders: [
     {
       name: 'Meera Iyer',
@@ -30,7 +30,7 @@ export const about = {
     { title: 'Community', description: 'Lasting change happens when communities lead their own progress.' },
   ],
   timeline: [
-    { year: '2016', event: 'Mita Foundation founded with 5 scholars.' },
+    { year: '2016', event: 'Badhte Kadam founded with 5 scholars.' },
     { year: '2019', event: 'Expanded to a formal scholarship program across multiple states.' },
     { year: '2022', event: 'Launched community health camps alongside the scholarship program.' },
     { year: '2025', event: 'Reached 150+ scholars supported across 25 states.' },
@@ -46,7 +46,7 @@ export const impactStats = [
 
 export const programs = [
   {
-    title: 'Mita Scholars',
+    title: 'Badhte Kadam Scholars',
     description: 'Scholarships, mentorship, and academic support for first-generation college students.',
   },
   {
@@ -64,7 +64,7 @@ export const programs = [
 ];
 
 export const contactInfo = {
-  email: 'hello@mitafoundation.org',
+  email: 'hello@badhtekadam.org',
   phone: '+91 98765 43210',
   address: 'Pune, Maharashtra, India',
 };
@@ -80,7 +80,7 @@ export const yearNotes = {
   2024: {
     quote: 'The record of 2024 — a cohort defined by resolve, and by the communities that shaped them.',
     description:
-      'This volume holds the twelfth cohort admitted into the Mita Scholars program, drawn from four states and recommended by their district committees.',
+      'This volume holds the twelfth cohort admitted into the Badhte Kadam Scholars program, drawn from four states and recommended by their district committees.',
   },
   2023: {
     quote: 'The record of 2023 — students who turned local challenges into fields of study.',
@@ -98,7 +98,7 @@ export function getYearNote(year) {
   return (
     yearNotes[year] || {
       quote: defaultYearQuote,
-      description: `This volume holds the Mita Scholars cohort admitted in ${year}.`,
+      description: `This volume holds the Badhte Kadam Scholars cohort admitted in ${year}.`,
     }
   );
 }

@@ -1,7 +1,7 @@
 {
   "name": "mita-foundation-backend",
   "version": "1.0.0",
-  "description": "Backend API for the Mita Foundation NGO website",
+  "description": "Backend API for the Badhte Kadam NGO website",
   "main": "server.js",
   "type": "commonjs",
   "scripts": {

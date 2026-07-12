@@ -35,15 +35,35 @@ const colorClasses = {
   gold: { bg: 'bg-gold-300/30', text: 'text-gold-600', label: 'text-gold-600' },
 };
 
+// Below-the-fold sections fetch data asynchronously and can shift page layout
+// mid-scroll, leaving a single scrollIntoView call short of its target. Re-run
+// it a couple of times as that content settles so the click always lands on
+// the right section regardless of fetch timing.
+const CORRECTION_DELAYS_MS = [0, 400, 1000];
+
 export default function FieldsOfWork() {
+  function goToProgram(index) {
+    CORRECTION_DELAYS_MS.forEach((delay) => {
+      window.setTimeout(() => {
+        document.getElementById(`program-${index}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, delay);
+    });
+  }
+
   return (
     <Section className="bg-sand">
       <h2 className="text-center text-3xl font-semibold text-sage-900">Our Fields of Work</h2>
       <div className="mt-14 flex flex-wrap justify-center gap-x-16 gap-y-10">
-        {fields.map((field) => {
+        {fields.map((field, index) => {
           const colors = colorClasses[field.color];
           return (
-            <div key={field.label} className="flex flex-col items-center">
+            <button
+              key={field.label}
+              type="button"
+              onClick={() => goToProgram(index)}
+              aria-label={`Jump to ${field.label} program`}
+              className="flex flex-col items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 rounded-lg"
+            >
               <div
                 className={`flex h-20 w-20 items-center justify-center rounded-full shadow-soft transition-transform duration-300 hover:-translate-y-1 ${colors.bg}`}
               >
@@ -62,7 +82,7 @@ export default function FieldsOfWork() {
               <p className={`mt-4 text-xs font-semibold uppercase tracking-[0.2em] ${colors.label}`}>
                 {field.label}
               </p>
-            </div>
+            </button>
           );
         })}
       </div>
