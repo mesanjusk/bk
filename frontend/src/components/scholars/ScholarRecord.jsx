@@ -12,7 +12,7 @@ export default function ScholarRecord({ scholar, index }) {
           />
         ) : (
           <div className="flex h-20 w-16 flex-shrink-0 items-center justify-center rounded-sm border border-gold-400/40 bg-sand font-serif text-lg text-sage-500">
-            {scholar.name.charAt(0)}
+            {scholar.name?.charAt(0) || '?'}
           </div>
         )}
 
