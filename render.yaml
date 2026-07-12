@@ -13,5 +13,13 @@ services:
         sync: false
       - key: CORS_ORIGIN
         sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false
       - key: NODE_VERSION
         value: 20.11.1

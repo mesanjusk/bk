@@ -45,7 +45,19 @@ Frontend runs on `http://localhost:5173` by default.
   `https://your-api.onrender.com/api`).
 - **Backend (Render)**: set the project root to `backend/`, build command
   `npm install`, start command `npm start`. Set `MONGODB_URI`,
-  `CORS_ORIGIN` (your Vercel URL) and `PORT` environment variables.
+  `CORS_ORIGIN` (your Vercel URL) and `PORT` environment variables. Also set
+  `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `JWT_SECRET` (admin login) and
+  `CLOUDINARY_URL` (image uploads) — these are declared in `render.yaml`
+  but must be filled in with real values in the Render dashboard.
+
+## Admin
+
+Visit `/admin/login` and sign in with the `ADMIN_USERNAME` /
+`ADMIN_PASSWORD` configured on the backend. From the admin dashboard you
+can manage scholars and stories, and on **Site Settings** you can replace
+the homepage hero image/video. Every image placeholder (hero, scholar
+photos, story images) has an "Upload" control backed by Cloudinary, or you
+can paste an image URL directly.
 
 ## Tech stack
 
