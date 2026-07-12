@@ -1,3 +1,4 @@
+import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
 import RequireAuth from './components/admin/RequireAuth.jsx';
@@ -9,6 +10,9 @@ import ScholarDetail from './pages/ScholarDetail.jsx';
 import Census from './pages/Census.jsx';
 import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
+
+// Pulls in Konva, which is heavy — keep it out of the main bundle.
+const CreatePoster = lazy(() => import('./pages/CreatePoster.jsx'));
 import AdminLogin from './pages/admin/AdminLogin.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 import AdminScholarNew from './pages/admin/AdminScholarNew.jsx';
@@ -28,6 +32,14 @@ export default function App() {
           <Route path="/scholars/:year" element={<ScholarYearDetail />} />
           <Route path="/scholars/:year/:id" element={<ScholarDetail />} />
           <Route path="/census" element={<Census />} />
+          <Route
+            path="/create"
+            element={
+              <Suspense fallback={<div className="py-24 text-center text-sage-500">Loading…</div>}>
+                <CreatePoster />
+              </Suspense>
+            }
+          />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
 
