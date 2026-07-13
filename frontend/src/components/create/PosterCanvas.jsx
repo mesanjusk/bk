@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Stage, Layer, Rect, Text, Image as KonvaImage, Transformer } from 'react-konva';
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../../data/posterTemplates.js';
+import { getCoverCrop } from './posterRenderer.js';
 
 function useHtmlImage(src) {
   const [image, setImage] = useState(null);
@@ -26,26 +27,6 @@ function useHtmlImage(src) {
   }, [src]);
 
   return image;
-}
-
-// Mirrors CSS background-size:cover — crops the source image to fill the box.
-function getCoverCrop(image, boxWidth, boxHeight) {
-  const imageRatio = image.width / image.height;
-  const boxRatio = boxWidth / boxHeight;
-  let cropWidth = image.width;
-  let cropHeight = image.height;
-  let cropX = 0;
-  let cropY = 0;
-
-  if (imageRatio > boxRatio) {
-    cropWidth = image.height * boxRatio;
-    cropX = (image.width - cropWidth) / 2;
-  } else {
-    cropHeight = image.width / boxRatio;
-    cropY = (image.height - cropHeight) / 2;
-  }
-
-  return { cropX, cropY, cropWidth, cropHeight };
 }
 
 function PosterImage({ element, isSelected, interactive, onSelect, onChange }) {

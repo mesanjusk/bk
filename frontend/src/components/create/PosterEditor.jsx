@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import PosterCanvas from './PosterCanvas.jsx';
 import ControlsPanel from './ControlsPanel.jsx';
+import BulkGeneratePanel from './BulkGeneratePanel.jsx';
 import useElementWidth from './useElementWidth.js';
 import { CANVAS_WIDTH, CANVAS_HEIGHT, cloneTemplate } from '../../data/posterTemplates.js';
 
@@ -29,6 +30,7 @@ export default function PosterEditor({ template, onBack }) {
   const [background] = useState(initial.background);
   const [selectedId, setSelectedId] = useState(null);
   const [status, setStatus] = useState('');
+  const [showBulk, setShowBulk] = useState(false);
 
   const stageRef = useRef(null);
   const canvasWrapRef = useRef(null);
@@ -141,6 +143,17 @@ export default function PosterEditor({ template, onBack }) {
           </button>
           <button
             type="button"
+            onClick={() => setShowBulk((v) => !v)}
+            className={`rounded-full border px-4 py-2 text-xs font-medium uppercase tracking-wide transition-colors ${
+              showBulk
+                ? 'border-sage-800 bg-sage-800 text-cream'
+                : 'border-sage-300 text-sage-700 hover:bg-sage-50'
+            }`}
+          >
+            Bulk Generate
+          </button>
+          <button
+            type="button"
             onClick={handleShare}
             className="rounded-full border border-sage-300 px-4 py-2 text-xs font-medium uppercase tracking-wide text-sage-700 transition-colors hover:bg-sage-50"
           >
@@ -155,6 +168,15 @@ export default function PosterEditor({ template, onBack }) {
           </button>
         </div>
       </div>
+
+      {showBulk && (
+        <BulkGeneratePanel
+          templateId={template.id}
+          background={background}
+          elements={elements}
+          onClose={() => setShowBulk(false)}
+        />
+      )}
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div
