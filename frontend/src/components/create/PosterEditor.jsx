@@ -8,27 +8,6 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT, cloneTemplate } from '../../data/posterTem
 const DRAFT_KEY_PREFIX = 'poster_draft_';
 const MAX_CANVAS_WIDTH = 520;
 
-function applyThemeToElements(elements, theme) {
-  return elements.map((el) => {
-    switch (el.role) {
-      case 'accent':
-        return { ...el, fill: theme.accent };
-      case 'heading':
-        return { ...el, fill: theme.heading };
-      case 'heading-on-accent':
-        return { ...el, fill: theme.headingOnAccent };
-      case 'subheading':
-        return { ...el, fill: theme.subheading };
-      case 'body':
-        return { ...el, fill: theme.body };
-      case 'body-on-accent':
-        return { ...el, fill: theme.bodyOnAccent };
-      default:
-        return el;
-    }
-  });
-}
-
 function loadDraft(draftKey, template) {
   try {
     const saved = localStorage.getItem(draftKey);
@@ -47,9 +26,8 @@ export default function PosterEditor({ template, onBack }) {
   const initial = useMemo(() => loadDraft(draftKey, template), [draftKey, template]);
 
   const [elements, setElements] = useState(initial.elements);
-  const [background, setBackground] = useState(initial.background);
+  const [background] = useState(initial.background);
   const [selectedId, setSelectedId] = useState(null);
-  const [activeThemeId, setActiveThemeId] = useState(null);
   const [status, setStatus] = useState('');
 
   const stageRef = useRef(null);
@@ -67,12 +45,6 @@ export default function PosterEditor({ template, onBack }) {
 
   function updateElement(id, patch) {
     setElements((prev) => prev.map((el) => (el.id === id ? { ...el, ...patch } : el)));
-  }
-
-  function applyTheme(theme) {
-    setElements((prev) => applyThemeToElements(prev, theme));
-    setBackground(theme.background);
-    setActiveThemeId(theme.id);
   }
 
   function captureDataUrl() {
@@ -204,8 +176,6 @@ export default function PosterEditor({ template, onBack }) {
           <ControlsPanel
             selectedElement={selectedElement}
             onUpdateElement={(patch) => selectedElement && updateElement(selectedElement.id, patch)}
-            onApplyTheme={applyTheme}
-            activeThemeId={activeThemeId}
           />
         </div>
       </div>

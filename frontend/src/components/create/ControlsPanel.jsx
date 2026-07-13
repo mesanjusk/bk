@@ -1,10 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { colorThemes } from '../../data/posterTemplates.js';
 
 const FONT_SIZE_MIN = 12;
 const FONT_SIZE_MAX = 96;
 
-export default function ControlsPanel({ selectedElement, onUpdateElement, onApplyTheme, activeThemeId }) {
+export default function ControlsPanel({ selectedElement, onUpdateElement }) {
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -58,14 +57,33 @@ export default function ControlsPanel({ selectedElement, onUpdateElement, onAppl
               <span className="w-8 text-right text-xs text-sage-500">{selectedElement.fontSize}</span>
             </div>
             <div className="flex items-center gap-3">
+              <span className="text-xs font-medium uppercase tracking-wide text-sage-600">Weight</span>
+              <div className="flex overflow-hidden rounded-full border border-sage-300">
+                {['normal', 'bold'].map((weight) => (
+                  <button
+                    key={weight}
+                    type="button"
+                    onClick={() => onUpdateElement({ fontWeight: weight })}
+                    className={`px-3 py-1 text-xs uppercase tracking-wide transition-colors ${
+                      (selectedElement.fontWeight || 'normal') === weight
+                        ? 'bg-sage-800 text-cream'
+                        : 'text-sage-600 hover:bg-sage-50'
+                    }`}
+                  >
+                    {weight === 'bold' ? 'Bold' : 'Normal'}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
               <label htmlFor="text-color" className="text-xs font-medium uppercase tracking-wide text-sage-600">
                 Color
               </label>
               <input
                 id="text-color"
                 type="color"
-                value={selectedElement.fill}
-                onChange={(e) => onUpdateElement({ fill: e.target.value })}
+                value={selectedElement.color}
+                onChange={(e) => onUpdateElement({ color: e.target.value })}
                 className="h-8 w-14 cursor-pointer rounded border border-sage-200 bg-transparent"
               />
             </div>
@@ -119,31 +137,30 @@ export default function ControlsPanel({ selectedElement, onUpdateElement, onAppl
         </section>
       )}
 
-      {!selectedElement && (
-        <p className="text-sm leading-relaxed text-sage-500">
-          Click any text or photo on the poster to edit it. Drag to reposition, or drag a photo&rsquo;s corner to
-          resize it.
-        </p>
+      {selectedElement?.type === 'shape' && (
+        <section>
+          <h3 className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-600">Shape</h3>
+          <div className="mt-4 flex items-center gap-3">
+            <label htmlFor="shape-color" className="text-xs font-medium uppercase tracking-wide text-sage-600">
+              Fill
+            </label>
+            <input
+              id="shape-color"
+              type="color"
+              value={selectedElement.fill?.startsWith('#') ? selectedElement.fill : '#f6f1e7'}
+              onChange={(e) => onUpdateElement({ fill: e.target.value })}
+              className="h-8 w-14 cursor-pointer rounded border border-sage-200 bg-transparent"
+            />
+          </div>
+        </section>
       )}
 
-      <section>
-        <h3 className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-600">Template Colors</h3>
-        <div className="mt-4 flex flex-wrap gap-3">
-          {colorThemes.map((theme) => (
-            <button
-              key={theme.id}
-              type="button"
-              onClick={() => onApplyTheme(theme)}
-              aria-label={theme.name}
-              title={theme.name}
-              className={`h-10 w-10 rounded-full ring-2 ring-offset-2 ring-offset-white transition-transform hover:scale-105 ${
-                activeThemeId === theme.id ? 'ring-gold-500' : 'ring-transparent'
-              }`}
-              style={{ backgroundColor: theme.accent }}
-            />
-          ))}
-        </div>
-      </section>
+      {!selectedElement && (
+        <p className="text-sm leading-relaxed text-sage-500">
+          Click any text, photo or shape on the poster to edit it. Drag to reposition, or drag a photo&rsquo;s
+          corner to resize it.
+        </p>
+      )}
     </div>
   );
 }

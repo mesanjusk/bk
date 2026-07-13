@@ -127,8 +127,8 @@ function PosterText({ element, isSelected, interactive, onSelect, onChange }) {
       width={element.width}
       fontSize={element.fontSize}
       fontFamily={element.fontFamily}
-      fontStyle={element.fontStyle || 'normal'}
-      fill={element.fill}
+      fontStyle={element.fontWeight === 'bold' ? 'bold' : 'normal'}
+      fill={element.color}
       lineHeight={element.lineHeight || 1.3}
       draggable={interactive}
       listening={interactive}
@@ -137,6 +137,39 @@ function PosterText({ element, isSelected, interactive, onSelect, onChange }) {
       onDragEnd={(e) => onChange({ x: e.target.x(), y: e.target.y() })}
       stroke={isSelected ? '#b08b57' : undefined}
       strokeWidth={isSelected ? 0.7 : 0}
+    />
+  );
+}
+
+// A background is a Cloudinary (or any) image URL. Falls back to a flat
+// ivory fill while it loads, or if a template still authors a plain color.
+function PosterBackground({ background }) {
+  const isImage = /^(https?:|data:)/.test(background || '');
+  const image = useHtmlImage(isImage ? background : null);
+  const crop = image ? getCoverCrop(image, CANVAS_WIDTH, CANVAS_HEIGHT) : null;
+
+  if (image) {
+    return (
+      <KonvaImage
+        image={image}
+        x={0}
+        y={0}
+        width={CANVAS_WIDTH}
+        height={CANVAS_HEIGHT}
+        crop={crop || undefined}
+        listening={false}
+      />
+    );
+  }
+
+  return (
+    <Rect
+      x={0}
+      y={0}
+      width={CANVAS_WIDTH}
+      height={CANVAS_HEIGHT}
+      fill={isImage ? '#f6f1e7' : background || '#f6f1e7'}
+      listening={false}
     />
   );
 }
@@ -169,9 +202,9 @@ export default function PosterCanvas({
       listening={interactive}
     >
       <Layer>
-        <Rect x={0} y={0} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} fill={background} listening={false} />
+        <PosterBackground background={background} />
         {elements.map((element) => {
-          if (element.type === 'rect') {
+          if (element.type === 'shape' || element.type === 'rect') {
             return (
               <Rect
                 key={element.id}

@@ -20,13 +20,8 @@ export default function TemplateCard({ template, onClick }) {
           interactive={false}
         />
       </div>
-      <div className="flex items-center justify-between gap-2 p-4">
+      <div className="p-4">
         <p className="text-sm font-medium text-sage-800">{template.name}</p>
-        <span
-          className="h-3 w-3 flex-shrink-0 rounded-full"
-          style={{ backgroundColor: template.swatch }}
-          aria-hidden="true"
-        />
       </div>
     </button>
   );
