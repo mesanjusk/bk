@@ -1,11 +1,19 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+'use client';
+
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { login as loginRequest } from '../api/client.js';
 
 const AuthContext = createContext(null);
 const STORAGE_KEY = 'mita_admin_token';
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem(STORAGE_KEY));
+  const [token, setToken] = useState(null);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    setToken(localStorage.getItem(STORAGE_KEY));
+    setReady(true);
+  }, []);
 
   async function login(username, password) {
     const { token: newToken } = await loginRequest(username, password);
@@ -19,8 +27,8 @@ export function AuthProvider({ children }) {
   }
 
   const value = useMemo(
-    () => ({ token, isAuthenticated: Boolean(token), login, logout }),
-    [token]
+    () => ({ token, isAuthenticated: Boolean(token), ready, login, logout }),
+    [token, ready]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

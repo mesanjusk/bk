@@ -1,5 +1,9 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 import { site } from '../../data/siteContent.js';
 
 const links = [
@@ -11,9 +15,15 @@ const links = [
   { to: '/contact', label: 'Contact' },
 ];
 
+function isLinkActive(pathname, to) {
+  if (to === '/') return pathname === '/';
+  return pathname === to || pathname.startsWith(`${to}/`);
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     function onScroll() {
@@ -24,6 +34,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
   return (
     <header
       className={`sticky top-0 z-50 h-[72px] transition-colors duration-300 ${
@@ -31,9 +45,9 @@ export default function Navbar() {
       }`}
     >
       <nav className="flex h-full items-center justify-between px-6 md:px-12">
-        <NavLink to="/" className="font-serif text-xl font-semibold text-sage-800">
+        <Link href="/" className="font-serif text-xl font-semibold text-sage-800">
           {site.name}
-        </NavLink>
+        </Link>
 
         <button
           className="text-sage-800 sm:hidden"
@@ -48,38 +62,42 @@ export default function Navbar() {
         <ul className="hidden gap-8 text-sm font-medium text-sage-700 sm:flex">
           {links.map((link) => (
             <li key={link.to}>
-              <NavLink
-                to={link.to}
-                end={link.to === '/'}
-                className={({ isActive }) =>
-                  `border-b transition-colors duration-200 hover:text-sage-900 ${
-                    isActive ? 'border-gold-500 text-sage-900' : 'border-transparent'
-                  }`
-                }
+              <Link
+                href={link.to}
+                className={`border-b transition-colors duration-200 hover:text-sage-900 ${
+                  isLinkActive(pathname, link.to) ? 'border-gold-500 text-sage-900' : 'border-transparent'
+                }`}
               >
                 {link.label}
-              </NavLink>
+              </Link>
             </li>
           ))}
         </ul>
       </nav>
 
-      {open && (
-        <ul className="flex flex-col gap-4 border-t border-sage-100 bg-cream px-6 py-4 text-sm font-medium text-sage-700 sm:hidden">
-          {links.map((link) => (
-            <li key={link.to}>
-              <NavLink
-                to={link.to}
-                end={link.to === '/'}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) => (isActive ? 'text-sage-900' : '')}
-              >
-                {link.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col gap-4 overflow-hidden border-t border-sage-100 bg-cream px-6 py-4 text-sm font-medium text-sage-700 sm:hidden"
+          >
+            {links.map((link) => (
+              <li key={link.to}>
+                <Link
+                  href={link.to}
+                  onClick={() => setOpen(false)}
+                  className={isLinkActive(pathname, link.to) ? 'text-sage-900' : ''}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

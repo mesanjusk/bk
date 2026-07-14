@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { site, contactInfo } from '../../data/siteContent.js';
 
 export default function Footer() {
@@ -13,9 +13,9 @@ export default function Footer() {
         <div>
           <p className="text-sm font-medium text-sage-800">Quick Links</p>
           <ul className="mt-3 space-y-2 text-sm text-sage-600">
-            <li><Link to="/scholars" className="hover:text-sage-900">Scholars</Link></li>
-            <li><Link to="/about" className="hover:text-sage-900">About Us</Link></li>
-            <li><Link to="/contact" className="hover:text-sage-900">Get Involved</Link></li>
+            <li><Link href="/scholars" className="hover:text-sage-900">Scholars</Link></li>
+            <li><Link href="/about" className="hover:text-sage-900">About Us</Link></li>
+            <li><Link href="/contact" className="hover:text-sage-900">Get Involved</Link></li>
           </ul>
         </div>
 
@@ -31,7 +31,7 @@ export default function Footer() {
 
       <div className="border-t border-sage-200 py-4 text-center text-xs text-sage-500">
         © {new Date().getFullYear()} {site.name}. All rights reserved.{' '}
-        <Link to="/admin/login" className="text-sage-400 hover:text-sage-600">
+        <Link href="/admin/login" className="text-sage-400 hover:text-sage-600">
           Admin
         </Link>
       </div>

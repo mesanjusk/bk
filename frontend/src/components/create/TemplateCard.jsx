@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef } from 'react';
 import PosterCanvas from './PosterCanvas.jsx';
 import useElementWidth from './useElementWidth.js';

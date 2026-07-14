@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export default function ScholarRecord({ scholar, index }) {
   return (
@@ -20,7 +20,7 @@ export default function ScholarRecord({ scholar, index }) {
       )}
 
       <Link
-        to={`/scholars/${scholar.year}/${scholar._id}`}
+        href={`/scholars/${scholar.year}/${scholar._id}`}
         className="mt-5 font-serif text-2xl font-semibold text-sage-900 hover:text-gold-600"
       >
         {scholar.name}
