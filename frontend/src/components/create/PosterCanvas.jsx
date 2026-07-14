@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 import { Stage, Layer, Rect, Text, Image as KonvaImage, Transformer } from 'react-konva';
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../../data/posterTemplates.js';

@@ -1,12 +1,22 @@
-import { Navigate, useLocation } from 'react-router-dom';
+'use client';
+
+import { useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext.jsx';
 
 export default function RequireAuth({ children }) {
-  const { isAuthenticated } = useAuth();
-  const location = useLocation();
+  const { isAuthenticated, ready } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/admin/login" state={{ from: location }} replace />;
+  useEffect(() => {
+    if (ready && !isAuthenticated) {
+      router.replace(`/admin/login?from=${encodeURIComponent(pathname)}`);
+    }
+  }, [ready, isAuthenticated, router, pathname]);
+
+  if (!ready || !isAuthenticated) {
+    return null;
   }
 
   return children;

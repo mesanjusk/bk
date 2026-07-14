@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import Section from '../ui/Section.jsx';
 import Button from '../ui/Button.jsx';

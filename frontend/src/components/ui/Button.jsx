@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const variants = {
   primary: 'bg-sage-800 text-cream hover:bg-sage-900 ring-1 ring-gold-400/40',
@@ -19,7 +19,7 @@ export default function Button({
 
   if (to) {
     return (
-      <Link to={to} className={classes}>
+      <Link href={to} className={classes}>
         {children}
       </Link>
     );

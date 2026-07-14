@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ['./index.html', './src/**/*.{js,jsx}'],
+module.exports = {
+  content: ['./src/**/*.{js,jsx}'],
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"Playfair Display"', '"Libre Baskerville"', 'Georgia', 'serif'],
-        sans: ['"Inter"', '"Lato"', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif)', '"Libre Baskerville"', 'Georgia', 'serif'],
+        sans: ['var(--font-sans)', '"Lato"', 'system-ui', 'sans-serif'],
       },
       colors: {
         // Institutional deep-green scale, anchored on the brand primary #1F3D2B (sage-800).

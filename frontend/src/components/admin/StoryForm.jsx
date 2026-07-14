@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { uploadImage } from '../../api/client.js';
