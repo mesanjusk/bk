@@ -36,14 +36,26 @@ module.exports = {
           500: '#a88f5f',
           600: '#8a744a',
         },
-        ink: '#1a1a1a',
-        cream: '#f8f5f0',
-        sand: '#efe8da',
+        ink: '#111111',
+        muted: '#666666',
+        canvas: '#f7f5f2',
+        // Legacy aliases kept so existing pages retint automatically to the
+        // new editorial palette without touching every className.
+        cream: '#f7f5f2',
+        sand: '#f1eee7',
+      },
+      fontSize: {
+        'display-sm': ['3rem', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
+        display: ['4.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }],
+        'display-lg': ['6rem', { lineHeight: '0.98', letterSpacing: '-0.025em' }],
+        'display-xl': ['6.875rem', { lineHeight: '0.95', letterSpacing: '-0.03em' }],
       },
       boxShadow: {
         soft: '0 10px 30px rgba(0, 0, 0, 0.08)',
         book: '0 20px 45px rgba(0, 0, 0, 0.18)',
         gilded: '0 0 0 1px rgba(194, 168, 120, 0.4), 0 18px 34px rgba(0, 0, 0, 0.22)',
+        lift: '0 24px 48px -12px rgba(17, 17, 17, 0.16)',
+        card: '0 2px 24px rgba(17, 17, 17, 0.06)',
       },
       borderRadius: {
         xl2: '1.25rem',

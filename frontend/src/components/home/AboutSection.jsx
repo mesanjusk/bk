@@ -1,25 +1,38 @@
-import Section from '../ui/Section.jsx';
-import { about } from '../../data/siteContent.js';
+import Chapter from '../ui/Chapter.jsx';
+import Reveal from '../ui/Reveal.jsx';
+import EditorialVisual from './EditorialVisual.jsx';
+import { about, impactStats } from '../../data/siteContent.js';
 
 export default function AboutSection() {
+  const years = impactStats.find((stat) => stat.label === 'Years');
+
   return (
-    <Section className="bg-cream">
-      <div className="grid gap-12 sm:grid-cols-2">
-        <div>
-          <h2 className="text-3xl font-semibold text-sage-900">Who We Are</h2>
-          <p className="mt-4 text-sage-600 leading-relaxed">{about.intro}</p>
-        </div>
-        <div className="space-y-8">
-          <div className="rounded-xl2 bg-white p-6 shadow-soft">
-            <h3 className="text-lg font-semibold text-sage-800">Our Vision</h3>
-            <p className="mt-2 text-sm text-sage-600 leading-relaxed">{about.vision}</p>
+    <Chapter
+      id="about"
+      number="02"
+      label="About"
+      title="A decade of opening doors."
+      description="Badhte Kadam is a community-driven nonprofit closing the gap between talent and opportunity for first-generation learners."
+    >
+      <div className="grid items-center gap-14 md:grid-cols-2 md:gap-16">
+        <Reveal className="order-2">
+          <p className="font-serif text-2xl italic leading-snug text-ink/85 sm:text-3xl">
+            &ldquo;{about.story}&rdquo;
+          </p>
+          <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
+            {about.founders.map((founder) => (
+              <div key={founder.name}>
+                <p className="text-sm font-medium text-ink">{founder.name}</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-muted">{founder.role}</p>
+              </div>
+            ))}
           </div>
-          <div className="rounded-xl2 bg-white p-6 shadow-soft">
-            <h3 className="text-lg font-semibold text-sage-800">Our Mission</h3>
-            <p className="mt-2 text-sm text-sage-600 leading-relaxed">{about.mission}</p>
-          </div>
-        </div>
+        </Reveal>
+
+        <Reveal delay={0.1} className="order-1">
+          <EditorialVisual figure={years?.value || '10'} caption="Years of impact" />
+        </Reveal>
       </div>
-    </Section>
+    </Chapter>
   );
 }

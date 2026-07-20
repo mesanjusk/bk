@@ -6,46 +6,40 @@ export default function StoryCard({ story }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="group px-8 py-10 transition-all duration-300 hover:z-10 hover:scale-[1.03] hover:shadow-soft sm:py-0">
+    <div className="rounded-3xl bg-white p-8 shadow-card transition-shadow duration-300 hover:shadow-lift">
       <div className="flex items-center gap-4">
         {story.photoUrl ? (
-          <img
-            src={story.photoUrl}
-            alt={story.name}
-            className="h-14 w-14 flex-shrink-0 rounded-full object-cover ring-1 ring-gold-400/30"
-          />
+          <img src={story.photoUrl} alt={story.name} className="h-14 w-14 flex-shrink-0 rounded-full object-cover" />
         ) : (
-          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-sand font-serif text-xl text-sage-600 ring-1 ring-gold-400/30">
+          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-sand font-serif text-xl text-sage-700">
             {story.name.charAt(0)}
           </div>
         )}
         <div>
-          <p className="font-serif text-lg font-semibold text-sage-900">{story.name}</p>
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-gold-600">{story.state}</p>
+          <p className="text-lg font-medium text-ink">{story.name}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sage-600">{story.state}</p>
         </div>
       </div>
 
-      <div className="mt-6 space-y-2 border-l-2 border-gold-400/40 pl-4">
+      <div className="mt-6 space-y-2 border-l border-ink/10 pl-4">
         <div>
-          <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-sage-400">Before</span>
-          <p className="text-sm text-sage-500">{story.before}</p>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">Before</span>
+          <p className="text-sm text-muted">{story.before}</p>
         </div>
         <div>
-          <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold-600">After</span>
-          <p className="text-sm font-medium text-sage-800">{story.after}</p>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-sage-600">After</span>
+          <p className="text-sm font-medium text-ink">{story.after}</p>
         </div>
       </div>
 
-      <p className="mt-6 text-sm leading-relaxed text-sage-600">{story.narrative}</p>
+      <p className="mt-6 text-sm leading-relaxed text-muted">{story.narrative}</p>
 
-      {expanded && (
-        <p className="mt-4 text-sm leading-relaxed text-sage-600">{story.extended}</p>
-      )}
+      {expanded && <p className="mt-4 text-sm leading-relaxed text-muted">{story.extended}</p>}
 
       <button
         type="button"
         onClick={() => setExpanded((prev) => !prev)}
-        className="mt-5 text-xs font-medium uppercase tracking-wide text-sage-700 underline decoration-gold-400/60 underline-offset-4 hover:text-sage-900"
+        className="link-underline mt-5 text-xs font-semibold uppercase tracking-wide text-ink"
       >
         {expanded ? 'Show Less' : 'Read More'}
       </button>

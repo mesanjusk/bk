@@ -7,16 +7,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { site } from '../../data/siteContent.js';
 
 const links = [
-  { to: '/', label: 'Home' },
+  { to: '/about', label: 'About' },
   { to: '/scholars', label: 'Scholars' },
   { to: '/census', label: 'Census' },
   { to: '/create', label: 'Create Poster' },
-  { to: '/about', label: 'About' },
-  { to: '/contact', label: 'Contact' },
 ];
 
 function isLinkActive(pathname, to) {
-  if (to === '/') return pathname === '/';
   return pathname === to || pathname.startsWith(`${to}/`);
 }
 
@@ -27,7 +24,7 @@ export default function Navbar() {
 
   useEffect(() => {
     function onScroll() {
-      setScrolled(window.scrollY > 12);
+      setScrolled(window.scrollY > 24);
     }
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -40,39 +37,47 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 h-[72px] transition-colors duration-300 ${
-        scrolled ? 'border-b border-sage-100 bg-cream/95 shadow-soft backdrop-blur' : 'border-b border-transparent bg-transparent'
+      className={`sticky top-0 z-50 transition-all duration-500 ease-luxury ${
+        scrolled ? 'border-b border-ink/[0.06] bg-canvas/90 backdrop-blur-md' : 'border-b border-transparent bg-transparent'
       }`}
     >
-      <nav className="flex h-full items-center justify-between px-6 md:px-12">
-        <Link href="/" className="font-serif text-xl font-semibold text-sage-800">
+      <nav className="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-6 md:px-10">
+        <Link href="/" className="font-serif text-lg font-semibold tracking-tight text-ink">
           {site.name}
         </Link>
 
         <button
-          className="text-sage-800 sm:hidden"
+          className="text-ink sm:hidden"
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Toggle menu"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
           </svg>
         </button>
 
-        <ul className="hidden gap-8 text-sm font-medium text-sage-700 sm:flex">
-          {links.map((link) => (
-            <li key={link.to}>
-              <Link
-                href={link.to}
-                className={`border-b transition-colors duration-200 hover:text-sage-900 ${
-                  isLinkActive(pathname, link.to) ? 'border-gold-500 text-sage-900' : 'border-transparent'
-                }`}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="hidden items-center gap-10 sm:flex">
+          <ul className="flex gap-9 text-[13px] font-medium uppercase tracking-[0.12em] text-ink/70">
+            {links.map((link) => (
+              <li key={link.to}>
+                <Link
+                  href={link.to}
+                  className={`link-underline pb-0.5 transition-colors duration-200 hover:text-ink ${
+                    isLinkActive(pathname, link.to) ? 'text-ink' : ''
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-full bg-sage-800 px-6 py-2.5 text-[13px] font-medium text-white transition-all duration-300 ease-luxury hover:shadow-lift"
+          >
+            Get Involved
+          </Link>
+        </div>
       </nav>
 
       <AnimatePresence>
@@ -81,20 +86,25 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col gap-4 overflow-hidden border-t border-sage-100 bg-cream px-6 py-4 text-sm font-medium text-sage-700 sm:hidden"
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col gap-4 overflow-hidden border-t border-ink/[0.06] bg-canvas px-6 py-6 text-sm font-medium text-ink/70 sm:hidden"
           >
             {links.map((link) => (
               <li key={link.to}>
                 <Link
                   href={link.to}
                   onClick={() => setOpen(false)}
-                  className={isLinkActive(pathname, link.to) ? 'text-sage-900' : ''}
+                  className={isLinkActive(pathname, link.to) ? 'text-ink' : ''}
                 >
                   {link.label}
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href="/contact" onClick={() => setOpen(false)} className="text-ink">
+                Get Involved
+              </Link>
+            </li>
           </motion.ul>
         )}
       </AnimatePresence>
