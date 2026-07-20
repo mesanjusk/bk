@@ -1,23 +1,28 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
-import gsap from 'gsap';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import Button from '../ui/Button.jsx';
 import Container from '../ui/Container.jsx';
 import MediaFrame from '../ui/MediaFrame.jsx';
+import EditorialVisual from './EditorialVisual.jsx';
 import { content } from '../../data/content.js';
+import { impactStats } from '../../data/siteContent.js';
 import { fetchSettings } from '../../api/client.js';
 
-const HeroScene = dynamic(() => import('../three/HeroScene.jsx'), {
-  ssr: false,
-  loading: () => <div className="h-full w-full animate-pulse rounded-xl2 bg-sage-100/40" />,
-});
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
 export default function Hero() {
-  const { eyebrow, title, subtitle, ctaPrimary, ctaSecondary } = content.hero;
+  const { title, subtitle, ctaPrimary, ctaSecondary } = content.hero;
   const [heroMedia, setHeroMedia] = useState(null);
-  const textRef = useRef(null);
+  const scholarsFigure = impactStats.find((stat) => stat.label === 'Scholars');
 
   useEffect(() => {
     let isMounted = true;
@@ -33,52 +38,63 @@ export default function Hero() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!textRef.current) return undefined;
-    const targets = textRef.current.querySelectorAll('[data-reveal]');
-    const tween = gsap.fromTo(
-      targets,
-      { opacity: 0, y: 18 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12 }
-    );
-    return () => tween.kill();
-  }, []);
-
   return (
-    <section className="flex min-h-[90vh] items-center bg-gradient-to-b from-sand to-cream">
-      <Container>
-        <div className="grid items-center gap-16 md:grid-cols-2">
-          <div ref={textRef}>
-            <p data-reveal className="text-sm font-medium uppercase tracking-[0.3em] text-gold-600">
-              {eyebrow}
-            </p>
-            <span data-reveal className="mt-4 block h-px w-16 bg-gold-400/60" />
-            <h1 data-reveal className="mt-6 max-w-xl text-4xl font-semibold leading-tight text-sage-900 sm:text-5xl">
-              {title}
-            </h1>
-            <p data-reveal className="mt-6 max-w-md text-base text-sage-700">{subtitle}</p>
-            <div data-reveal className="mt-10 flex gap-4">
-              <Button to={ctaPrimary.to}>{ctaPrimary.label}</Button>
-              <Button to={ctaSecondary.to} variant="secondary">
-                {ctaSecondary.label}
-              </Button>
-            </div>
-          </div>
+    <section className="relative flex min-h-screen items-center overflow-hidden bg-canvas pt-20">
+      <Container maxWidth="max-w-[1280px]" className="grid items-center gap-16 py-16 md:grid-cols-2 md:gap-12">
+        <div>
+          <motion.div initial="hidden" animate="show" custom={0} variants={fadeUp} className="flex items-center gap-4">
+            <span className="font-serif text-sm text-sage-600">01</span>
+            <span className="h-px w-10 bg-sage-400/50" />
+            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-sage-600">Chapter One</span>
+          </motion.div>
 
+          <motion.h1
+            initial="hidden"
+            animate="show"
+            custom={0.1}
+            variants={fadeUp}
+            className="mt-8 max-w-xl font-serif text-5xl font-medium leading-[0.98] tracking-tight text-ink sm:text-6xl md:text-7xl"
+          >
+            {title}
+          </motion.h1>
+
+          <motion.p
+            initial="hidden"
+            animate="show"
+            custom={0.2}
+            variants={fadeUp}
+            className="mt-7 max-w-md text-lg leading-relaxed text-muted"
+          >
+            {subtitle}
+          </motion.p>
+
+          <motion.div initial="hidden" animate="show" custom={0.3} variants={fadeUp} className="mt-10 flex flex-wrap gap-4">
+            <Button to={ctaPrimary.to}>{ctaPrimary.label}</Button>
+            <Button to={ctaSecondary.to} variant="secondary">
+              {ctaSecondary.label}
+            </Button>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          className="hidden md:block"
+        >
           {heroMedia ? (
             <MediaFrame
               type={heroMedia.type}
               src={heroMedia.src}
               alt={title}
-              aspect="aspect-[4/3]"
-              className="hidden ring-1 ring-gold-400/30 md:block"
+              aspect="aspect-[4/5]"
+              rounded="rounded-3xl"
+              className="shadow-lift"
             />
           ) : (
-            <div className="hidden aspect-[4/3] w-full md:block">
-              <HeroScene />
-            </div>
+            <EditorialVisual figure={scholarsFigure?.value || '150+'} caption="Scholars supported" />
           )}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

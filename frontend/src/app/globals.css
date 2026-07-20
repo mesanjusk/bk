@@ -7,12 +7,7 @@ html {
 }
 
 body {
-  @apply bg-cream text-ink font-sans antialiased;
-  background-image:
-    radial-gradient(rgba(26, 26, 26, 0.035) 1px, transparent 1px),
-    radial-gradient(rgba(26, 26, 26, 0.02) 1px, transparent 1px);
-  background-size: 3px 3px, 7px 7px;
-  background-position: 0 0, 2px 3px;
+  @apply bg-canvas text-ink font-sans antialiased;
 }
 
 h1,
@@ -20,6 +15,10 @@ h2,
 h3,
 h4 {
   @apply font-serif;
+}
+
+::selection {
+  background: rgba(31, 61, 43, 0.16);
 }
 
 .perspective-book {
@@ -32,4 +31,16 @@ h4 {
 
 .backface-hidden {
   backface-visibility: hidden;
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-underline:hover {
+  background-size: 100% 1px;
 }

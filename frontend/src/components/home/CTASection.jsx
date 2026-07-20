@@ -1,20 +1,32 @@
-import Section from '../ui/Section.jsx';
+import Chapter from '../ui/Chapter.jsx';
+import Reveal from '../ui/Reveal.jsx';
 import Button from '../ui/Button.jsx';
+import { contactInfo } from '../../data/siteContent.js';
 
 export default function CTASection() {
   return (
-    <Section className="bg-sand">
-      <div className="rounded-xl2 bg-white p-12 text-center shadow-soft">
-        <h2 className="text-3xl font-semibold text-sage-900">Join Us in Making a Difference</h2>
-        <p className="mx-auto mt-4 max-w-xl text-sage-600">
-          Whether through volunteering, mentorship, or a donation, your support helps a scholar
-          continue their journey.
-        </p>
-        <div className="mt-8 flex justify-center gap-4">
+    <Chapter
+      id="contact"
+      number="08"
+      label="Contact"
+      title="Join us in making a difference."
+      description="Whether through volunteering, mentorship, or a donation — your support carries a scholar further."
+      align="center"
+    >
+      <Reveal className="mx-auto flex max-w-md flex-col items-center gap-8">
+        <div className="flex flex-wrap justify-center gap-4">
           <Button to="/contact">Support the Initiative</Button>
-          <Button to="/contact" variant="secondary">Join Us</Button>
+          <Button to="/contact" variant="secondary">
+            Join Us
+          </Button>
         </div>
-      </div>
-    </Section>
+
+        <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-muted">
+          <span>{contactInfo.email}</span>
+          <span>{contactInfo.phone}</span>
+          <span>{contactInfo.address}</span>
+        </div>
+      </Reveal>
+    </Chapter>
   );
 }
