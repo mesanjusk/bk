@@ -6,6 +6,11 @@ const nextConfig = {
       { protocol: 'https', hostname: '**' },
     ],
   },
+  async rewrites() {
+    return {
+      beforeFiles: [{ source: '/', destination: '/badhte-kadam.html' }],
+    };
+  },
 };
 
 export default nextConfig;
