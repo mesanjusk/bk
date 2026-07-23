@@ -27,8 +27,8 @@ export async function POST(request) {
     const { name, year, description, photoUrl, state, score, category, order, bio, achievements } =
       await request.json();
 
-    if (!name || !year || !description) {
-      throw new ApiError(400, 'Name, year and description are required.');
+    if (!name || !year) {
+      throw new ApiError(400, 'Name and year are required.');
     }
 
     let resolvedOrder = order;
@@ -37,10 +37,16 @@ export async function POST(request) {
       resolvedOrder = last ? last.order + 1 : 1;
     }
 
+    const resolvedDescription = description?.trim()
+      ? description.trim()
+      : category
+      ? `${category} — Badhte Kadam Scholar, ${year}`
+      : `Badhte Kadam Scholar, ${year}`;
+
     const scholar = await Scholar.create({
       name,
       year,
-      description,
+      description: resolvedDescription,
       photoUrl,
       state,
       score,

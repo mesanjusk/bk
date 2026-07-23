@@ -56,6 +56,14 @@ export function deleteScholar(id, token) {
   return request(`/scholars/${id}`, { method: 'DELETE', token });
 }
 
+export function fetchScholarOptions() {
+  return request('/scholars/options');
+}
+
+export function addScholarOption(type, value, token) {
+  return request('/scholars/options', { method: 'POST', body: { type, value }, token });
+}
+
 export function fetchStories() {
   return request('/stories');
 }
