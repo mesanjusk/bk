@@ -37,13 +37,6 @@ export const about = {
   ],
 };
 
-export const impactStats = [
-  { label: 'Scholars', value: '150+' },
-  { label: 'Years', value: '10' },
-  { label: 'States', value: '25' },
-  { label: 'Programs', value: '3' },
-];
-
 export const programs = [
   {
     title: 'Badhte Kadam Scholars',

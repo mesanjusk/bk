@@ -3,11 +3,9 @@ import { Stagger, StaggerItem } from '../ui/Stagger.jsx';
 import Reveal from '../ui/Reveal.jsx';
 import Button from '../ui/Button.jsx';
 import EditorialVisual from './EditorialVisual.jsx';
-import { programs, impactStats } from '../../data/siteContent.js';
+import { programs } from '../../data/siteContent.js';
 
 export default function ProgramsGrid() {
-  const programCount = impactStats.find((stat) => stat.label === 'Programs');
-
   return (
     <Chapter
       id="programs"
@@ -34,7 +32,7 @@ export default function ProgramsGrid() {
         </Stagger>
 
         <Reveal delay={0.1} className="hidden md:block">
-          <EditorialVisual figure={programCount?.value || '3'} caption="Active programs" />
+          <EditorialVisual figure={programs.length} caption="Active programs" />
         </Reveal>
       </div>
     </Chapter>

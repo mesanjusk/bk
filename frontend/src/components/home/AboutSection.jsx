@@ -1,10 +1,26 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Chapter from '../ui/Chapter.jsx';
 import Reveal from '../ui/Reveal.jsx';
 import EditorialVisual from './EditorialVisual.jsx';
-import { about, impactStats } from '../../data/siteContent.js';
+import { about } from '../../data/siteContent.js';
+import { fetchScholarStats } from '../../api/client.js';
 
 export default function AboutSection() {
-  const years = impactStats.find((stat) => stat.label === 'Years');
+  const [yearCount, setYearCount] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchScholarStats()
+      .then((stats) => {
+        if (isMounted) setYearCount(stats.years);
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <Chapter
@@ -30,7 +46,7 @@ export default function AboutSection() {
         </Reveal>
 
         <Reveal delay={0.1} className="order-1">
-          <EditorialVisual figure={years?.value || '10'} caption="Years of impact" />
+          <EditorialVisual figure={yearCount === null ? '—' : yearCount} caption="Years of impact" />
         </Reveal>
       </div>
     </Chapter>
