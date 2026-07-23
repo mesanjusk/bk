@@ -111,6 +111,7 @@ function AdminDashboard() {
                     <th className="px-6 py-4">Name</th>
                     <th className="px-6 py-4">Category</th>
                     <th className="px-6 py-4">Percentage</th>
+                    <th className="px-6 py-4">Photo</th>
                     <th className="px-6 py-4 text-right">Actions</th>
                   </tr>
                 </thead>
@@ -142,6 +143,19 @@ function AdminDashboard() {
                       <td className="px-6 py-4 font-serif font-semibold text-sage-900">{scholar.name}</td>
                       <td className="px-6 py-4 text-sage-600">{scholar.category || '—'}</td>
                       <td className="px-6 py-4 text-sage-600">{scholar.score || '—'}</td>
+                      <td className="px-6 py-4">
+                        {scholar.photoUrl ? (
+                          <img
+                            src={scholar.photoUrl}
+                            alt={scholar.name}
+                            className="h-10 w-10 rounded-sm object-cover ring-1 ring-gold-400/30"
+                          />
+                        ) : (
+                          <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-sand text-[9px] uppercase text-sage-400 ring-1 ring-gold-400/30">
+                            None
+                          </div>
+                        )}
+                      </td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex justify-end gap-4">
                           <Link
