@@ -1,21 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import Section from '../../../../components/ui/Section.jsx';
-import Button from '../../../../components/ui/Button.jsx';
-import RequireAuth from '../../../../components/admin/RequireAuth.jsx';
+import AdminPageHeader from '../../../../components/admin/ui/AdminPageHeader.jsx';
+import AdminCard from '../../../../components/admin/ui/AdminCard.jsx';
+import AdminButton from '../../../../components/admin/ui/AdminButton.jsx';
+import { fieldClasses } from '../../../../components/admin/ui/AdminField.jsx';
 import OptionSelect from '../../../../components/admin/OptionSelect.jsx';
 import { useAuth } from '../../../../context/AuthContext.jsx';
 import { uploadImage, createScholar, fetchScholarOptions, addScholarOption } from '../../../../api/client.js';
 import { parseScholarFilename } from '../../../../lib/parseScholarFilename.js';
 
-const inputClasses =
-  'mt-1 w-full rounded-lg border border-sage-200 px-4 py-2 text-sm focus:border-sage-500 focus:outline-none';
-
 let nextRowId = 0;
 
-function AdminScholarsBulk() {
+export default function AdminScholarsBulkPage() {
   const { token } = useAuth();
   const [year, setYear] = useState('');
   const [category, setCategory] = useState('');
@@ -120,22 +117,22 @@ function AdminScholarsBulk() {
   const canUpload = year && rows.length > 0 && !running;
 
   return (
-    <Section maxWidth="max-w-4xl">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl font-semibold text-sage-900">Bulk Upload Scholars</h1>
-        <Link href="/admin" className="text-sm font-medium text-sage-600 hover:text-sage-900">
-          ← Back to Manage Scholars
-        </Link>
-      </div>
+    <div className="mx-auto max-w-4xl">
+      <AdminPageHeader
+        title="Bulk Upload Scholars"
+        backTo="/admin"
+        backLabel="All Scholars"
+        description={
+          <>
+            Set the year and category for this batch, then select every scholar photo at once. Each
+            filename is parsed for a name (and score, if the file is named like{' '}
+            <span className="rounded bg-[#f1f3f4] px-1 py-0.5 font-mono text-xs">90.17% Student Name.png</span>) —
+            review and fix anything below before uploading.
+          </>
+        }
+      />
 
-      <p className="mt-3 text-sm text-sage-600">
-        Set the year and category for this batch, then select every scholar photo at once. Each
-        filename is parsed for a name (and score, if the file is named like{' '}
-        <span className="font-mono text-xs">90.17%  Student Name.png</span>) — review and fix
-        anything below before uploading.
-      </p>
-
-      <div className="mt-8 grid gap-5 rounded-xl2 bg-white p-8 shadow-soft sm:grid-cols-3">
+      <AdminCard className="grid gap-5 sm:grid-cols-3">
         <OptionSelect
           id="bulk-year"
           label="Year"
@@ -155,7 +152,7 @@ function AdminScholarsBulk() {
           inputType="text"
         />
         <div>
-          <label htmlFor="bulk-description" className="text-sm font-medium text-sage-700">
+          <label htmlFor="bulk-description" className="text-sm font-medium text-[#3c4043]">
             Description (optional)
           </label>
           <input
@@ -163,13 +160,13 @@ function AdminScholarsBulk() {
             placeholder="Applied to every scholar in this batch"
             value={descriptionTemplate}
             onChange={(event) => setDescriptionTemplate(event.target.value)}
-            className={inputClasses}
+            className={fieldClasses}
           />
         </div>
-      </div>
+      </AdminCard>
 
-      <div className="mt-6">
-        <label className="cursor-pointer inline-flex items-center rounded-full border border-sage-600 px-5 py-2.5 text-xs font-medium uppercase tracking-wide text-sage-700 transition-colors hover:bg-sage-50">
+      <div className="mt-6 flex flex-wrap items-center gap-4">
+        <label className="cursor-pointer inline-flex items-center rounded-md border border-[#dadce0] bg-white px-4 py-2 text-sm font-medium text-[#3c4043] transition-colors hover:bg-[#f8f9fa]">
           Select Photos
           <input
             type="file"
@@ -180,92 +177,82 @@ function AdminScholarsBulk() {
             className="hidden"
           />
         </label>
-        <span className="ml-4 text-xs text-sage-500">{rows.length} file(s) selected</span>
+        <span className="text-sm text-[#5f6368]">{rows.length} file(s) selected</span>
       </div>
 
       {rows.length > 0 && (
-        <div className="mt-8 overflow-hidden rounded-xl2 bg-white shadow-soft">
-          <table className="w-full text-left text-sm">
-            <thead className="border-b border-sage-100 text-xs uppercase tracking-wide text-sage-500">
-              <tr>
-                <th className="px-4 py-3">Photo</th>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Score</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3 text-right">Remove</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.id} className="border-b border-sage-100 last:border-none">
-                  <td className="px-4 py-3">
-                    <img
-                      src={row.previewUrl}
-                      alt=""
-                      className="h-12 w-12 rounded-sm object-cover ring-1 ring-gold-400/30"
-                    />
-                  </td>
-                  <td className="px-4 py-3">
-                    <input
-                      value={row.name}
-                      onChange={(event) => updateRow(row.id, { name: event.target.value })}
-                      disabled={row.status === 'done' || running}
-                      className={`${inputClasses} mt-0`}
-                    />
-                  </td>
-                  <td className="px-4 py-3">
-                    <input
-                      value={row.score}
-                      onChange={(event) => updateRow(row.id, { score: event.target.value })}
-                      disabled={row.status === 'done' || running}
-                      className={`${inputClasses} mt-0 w-28`}
-                    />
-                  </td>
-                  <td className="px-4 py-3 text-xs">
-                    {row.status === 'pending' && <span className="text-sage-400">Pending</span>}
-                    {row.status === 'uploading' && <span className="text-sage-600">Uploading photo…</span>}
-                    {row.status === 'creating' && <span className="text-sage-600">Saving…</span>}
-                    {row.status === 'done' && <span className="text-green-600">Done</span>}
-                    {row.status === 'error' && (
-                      <span className="text-red-600">{row.errorMessage || 'Failed'}</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <button
-                      type="button"
-                      onClick={() => removeRow(row.id)}
-                      disabled={running}
-                      className="text-xs font-medium uppercase tracking-wide text-maroon-500 hover:text-maroon-700 disabled:opacity-50"
-                    >
-                      Remove
-                    </button>
-                  </td>
+        <AdminCard padded={false} className="mt-6 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="border-b border-[#dadce0] text-xs font-medium text-[#5f6368]">
+                <tr>
+                  <th className="px-4 py-3 font-medium">Photo</th>
+                  <th className="px-4 py-3 font-medium">Name</th>
+                  <th className="px-4 py-3 font-medium">Score</th>
+                  <th className="px-4 py-3 font-medium">Status</th>
+                  <th className="px-4 py-3 text-right font-medium">Remove</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {rows.map((row) => (
+                  <tr key={row.id} className="border-b border-[#e8eaed] last:border-none hover:bg-[#f8f9fa]">
+                    <td className="px-4 py-3">
+                      <img src={row.previewUrl} alt="" className="h-11 w-11 rounded object-cover ring-1 ring-[#dadce0]" />
+                    </td>
+                    <td className="px-4 py-3">
+                      <input
+                        value={row.name}
+                        onChange={(event) => updateRow(row.id, { name: event.target.value })}
+                        disabled={row.status === 'done' || running}
+                        className={`${fieldClasses} mt-0`}
+                      />
+                    </td>
+                    <td className="px-4 py-3">
+                      <input
+                        value={row.score}
+                        onChange={(event) => updateRow(row.id, { score: event.target.value })}
+                        disabled={row.status === 'done' || running}
+                        className={`${fieldClasses} mt-0 w-28`}
+                      />
+                    </td>
+                    <td className="px-4 py-3 text-sm">
+                      {row.status === 'pending' && <span className="text-[#80868b]">Pending</span>}
+                      {row.status === 'uploading' && <span className="text-[#5f6368]">Uploading photo…</span>}
+                      {row.status === 'creating' && <span className="text-[#5f6368]">Saving…</span>}
+                      {row.status === 'done' && <span className="text-[#188038]">Done</span>}
+                      {row.status === 'error' && (
+                        <span className="text-[#d93025]">{row.errorMessage || 'Failed'}</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <button
+                        type="button"
+                        onClick={() => removeRow(row.id)}
+                        disabled={running}
+                        className="text-sm font-medium text-[#d93025] hover:underline disabled:opacity-50"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </AdminCard>
       )}
 
-      <div className="mt-8 flex items-center gap-4">
-        <Button onClick={handleUploadAll} disabled={!canUpload}>
+      <div className="mt-6 flex items-center gap-4">
+        <AdminButton onClick={handleUploadAll} disabled={!canUpload}>
           {running ? 'Uploading…' : `Upload All (${rows.length})`}
-        </Button>
-        {!year && rows.length > 0 && <span className="text-xs text-red-600">Set a year first.</span>}
+        </AdminButton>
+        {!year && rows.length > 0 && <span className="text-sm text-[#d93025]">Set a year first.</span>}
         {(doneCount > 0 || errorCount > 0) && (
-          <span className="text-xs text-sage-600">
+          <span className="text-sm text-[#5f6368]">
             {doneCount} saved{errorCount > 0 ? `, ${errorCount} failed` : ''}
           </span>
         )}
       </div>
-    </Section>
-  );
-}
-
-export default function AdminScholarsBulkPage() {
-  return (
-    <RequireAuth>
-      <AdminScholarsBulk />
-    </RequireAuth>
+    </div>
   );
 }

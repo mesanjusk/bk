@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Section from '../../components/ui/Section.jsx';
-import Button from '../../components/ui/Button.jsx';
-import RequireAuth from '../../components/admin/RequireAuth.jsx';
+import AdminPageHeader from '../../components/admin/ui/AdminPageHeader.jsx';
+import AdminButton from '../../components/admin/ui/AdminButton.jsx';
+import AdminCard from '../../components/admin/ui/AdminCard.jsx';
+import { PlusIcon, UploadIcon, ArrowUpIcon, ArrowDownIcon } from '../../components/admin/ui/icons.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { fetchScholars, deleteScholar, updateScholar } from '../../api/client.js';
 
@@ -18,8 +19,8 @@ function groupByYear(scholars) {
   return [...groups.entries()].sort((a, b) => b[0] - a[0]);
 }
 
-function AdminDashboard() {
-  const { token, logout } = useAuth();
+export default function AdminPage() {
+  const { token } = useAuth();
   const [scholars, setScholars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -79,117 +80,123 @@ function AdminDashboard() {
   }
 
   return (
-    <Section maxWidth="max-w-4xl">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl font-semibold text-sage-900">Manage Scholars</h1>
-        <div className="flex flex-wrap gap-3">
-          <Button to="/admin/scholars/new">Add Scholar</Button>
-          <Button to="/admin/scholars/bulk" variant="secondary">Bulk Upload</Button>
-          <Button to="/admin/stories" variant="secondary">Stories</Button>
-          <Button to="/admin/settings" variant="secondary">Site Settings</Button>
-          <Button variant="secondary" onClick={logout}>Log Out</Button>
+    <div className="mx-auto max-w-6xl">
+      <AdminPageHeader
+        title="Scholars"
+        description="Manage every scholar record shown on the public site, grouped by year."
+        actions={
+          <>
+            <AdminButton to="/admin/scholars/bulk" variant="secondary" icon={<UploadIcon className="h-4 w-4" />}>
+              Bulk Upload
+            </AdminButton>
+            <AdminButton to="/admin/scholars/new" icon={<PlusIcon className="h-4 w-4" />}>
+              Add Scholar
+            </AdminButton>
+          </>
+        }
+      />
+
+      {error && (
+        <div className="mb-6 rounded-md border border-[#fad2cf] bg-[#fce8e6] px-4 py-3 text-sm text-[#d93025]">
+          {error}
         </div>
-      </div>
+      )}
 
-      {error && <p className="mt-6 text-sm text-red-600">{error}</p>}
-
-      <div className="mt-10 space-y-10">
+      <div className="space-y-6">
         {loading ? (
-          <p className="p-8 text-center text-sage-500">Loading scholars…</p>
+          <AdminCard>
+            <p className="text-center text-sm text-[#5f6368]">Loading scholars…</p>
+          </AdminCard>
         ) : scholars.length === 0 ? (
-          <p className="p-8 text-center text-sage-500">No scholars recorded yet.</p>
+          <AdminCard>
+            <p className="text-center text-sm text-[#5f6368]">No scholars recorded yet.</p>
+          </AdminCard>
         ) : (
           groupByYear(scholars).map(([year, yearGroup]) => (
-            <div key={year} className="overflow-hidden rounded-xl2 bg-white shadow-soft">
-              <h2 className="border-b border-sage-100 px-6 py-4 font-serif text-lg font-semibold text-sage-900">
+            <AdminCard key={year} padded={false} className="overflow-hidden">
+              <h2 className="border-b border-[#dadce0] bg-[#f8f9fa] px-6 py-3 text-sm font-medium text-[#202124]">
                 {year}
               </h2>
-              <table className="w-full text-left text-sm">
-                <thead className="border-b border-sage-100 text-xs uppercase tracking-wide text-sage-500">
-                  <tr>
-                    <th className="px-6 py-4">Order</th>
-                    <th className="px-6 py-4">Name</th>
-                    <th className="px-6 py-4">Category</th>
-                    <th className="px-6 py-4">Percentage</th>
-                    <th className="px-6 py-4">Photo</th>
-                    <th className="px-6 py-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {yearGroup.map((scholar, index) => (
-                    <tr key={scholar._id} className="border-b border-sage-100 last:border-none">
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            onClick={() => handleReorder(yearGroup, index, -1)}
-                            disabled={index === 0 || reorderingId === scholar._id}
-                            className="text-sage-500 hover:text-sage-900 disabled:opacity-30"
-                            aria-label={`Move ${scholar.name} up`}
-                          >
-                            ↑
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleReorder(yearGroup, index, 1)}
-                            disabled={index === yearGroup.length - 1 || reorderingId === scholar._id}
-                            className="text-sage-500 hover:text-sage-900 disabled:opacity-30"
-                            aria-label={`Move ${scholar.name} down`}
-                          >
-                            ↓
-                          </button>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 font-serif font-semibold text-sage-900">{scholar.name}</td>
-                      <td className="px-6 py-4 text-sage-600">{scholar.category || '—'}</td>
-                      <td className="px-6 py-4 text-sage-600">{scholar.score || '—'}</td>
-                      <td className="px-6 py-4">
-                        {scholar.photoUrl ? (
-                          <img
-                            src={scholar.photoUrl}
-                            alt={scholar.name}
-                            className="h-10 w-10 rounded-sm object-cover ring-1 ring-gold-400/30"
-                          />
-                        ) : (
-                          <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-sand text-[9px] uppercase text-sage-400 ring-1 ring-gold-400/30">
-                            None
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex justify-end gap-4">
-                          <Link
-                            href={`/admin/scholars/${scholar._id}/edit`}
-                            className="text-xs font-medium uppercase tracking-wide text-sage-700 hover:text-sage-900"
-                          >
-                            Edit
-                          </Link>
-                          <button
-                            type="button"
-                            onClick={() => handleDelete(scholar)}
-                            disabled={deletingId === scholar._id}
-                            className="text-xs font-medium uppercase tracking-wide text-maroon-500 hover:text-maroon-700 disabled:opacity-50"
-                          >
-                            {deletingId === scholar._id ? 'Removing…' : 'Remove'}
-                          </button>
-                        </div>
-                      </td>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="border-b border-[#dadce0] text-xs font-medium text-[#5f6368]">
+                    <tr>
+                      <th className="px-6 py-3 font-medium">Order</th>
+                      <th className="px-6 py-3 font-medium">Name</th>
+                      <th className="px-6 py-3 font-medium">Category</th>
+                      <th className="px-6 py-3 font-medium">Percentage</th>
+                      <th className="px-6 py-3 font-medium">Photo</th>
+                      <th className="px-6 py-3 text-right font-medium">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {yearGroup.map((scholar, index) => (
+                      <tr key={scholar._id} className="border-b border-[#e8eaed] last:border-none hover:bg-[#f8f9fa]">
+                        <td className="px-6 py-3">
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={() => handleReorder(yearGroup, index, -1)}
+                              disabled={index === 0 || reorderingId === scholar._id}
+                              className="rounded p-1 text-[#5f6368] hover:bg-[#e8eaed] disabled:opacity-30"
+                              aria-label={`Move ${scholar.name} up`}
+                            >
+                              <ArrowUpIcon className="h-4 w-4" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleReorder(yearGroup, index, 1)}
+                              disabled={index === yearGroup.length - 1 || reorderingId === scholar._id}
+                              className="rounded p-1 text-[#5f6368] hover:bg-[#e8eaed] disabled:opacity-30"
+                              aria-label={`Move ${scholar.name} down`}
+                            >
+                              <ArrowDownIcon className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </td>
+                        <td className="px-6 py-3 font-medium text-[#202124]">{scholar.name}</td>
+                        <td className="px-6 py-3 text-[#5f6368]">{scholar.category || '—'}</td>
+                        <td className="px-6 py-3 text-[#5f6368]">{scholar.score || '—'}</td>
+                        <td className="px-6 py-3">
+                          {scholar.photoUrl ? (
+                            <img
+                              src={scholar.photoUrl}
+                              alt={scholar.name}
+                              className="h-9 w-9 rounded object-cover ring-1 ring-[#dadce0]"
+                            />
+                          ) : (
+                            <div className="flex h-9 w-9 items-center justify-center rounded bg-[#f1f3f4] text-[9px] uppercase text-[#80868b] ring-1 ring-[#dadce0]">
+                              None
+                            </div>
+                          )}
+                        </td>
+                        <td className="px-6 py-3 text-right">
+                          <div className="flex justify-end gap-4">
+                            <Link
+                              href={`/admin/scholars/${scholar._id}/edit`}
+                              className="text-sm font-medium text-[#1a73e8] hover:underline"
+                            >
+                              Edit
+                            </Link>
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(scholar)}
+                              disabled={deletingId === scholar._id}
+                              className="text-sm font-medium text-[#d93025] hover:underline disabled:opacity-50"
+                            >
+                              {deletingId === scholar._id ? 'Removing…' : 'Remove'}
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </AdminCard>
           ))
         )}
       </div>
-    </Section>
-  );
-}
-
-export default function AdminPage() {
-  return (
-    <RequireAuth>
-      <AdminDashboard />
-    </RequireAuth>
+    </div>
   );
 }

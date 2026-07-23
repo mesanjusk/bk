@@ -1,11 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { fieldClasses } from './ui/AdminField.jsx';
 
 const ADD_NEW = '__add_new__';
-
-const inputClasses =
-  'mt-1 w-full rounded-lg border border-sage-200 px-4 py-2 text-sm focus:border-sage-500 focus:outline-none';
 
 // A <select> populated from `options`, plus a "+ Add new" entry that reveals
 // an inline input; the new value is persisted via onAddOption and selected.
@@ -36,8 +34,8 @@ export default function OptionSelect({ id, label, value, onChange, options, onAd
   if (adding) {
     return (
       <div>
-        <label className="text-sm font-medium text-sage-700">{label}</label>
-        <div className="mt-1 flex gap-2">
+        <label className="text-sm font-medium text-[#3c4043]">{label}</label>
+        <div className="mt-1.5 flex gap-2">
           <input
             autoFocus
             type={inputType}
@@ -50,13 +48,13 @@ export default function OptionSelect({ id, label, value, onChange, options, onAd
               }
             }}
             placeholder={`New ${label.toLowerCase()}`}
-            className={inputClasses}
+            className={fieldClasses}
           />
           <button
             type="button"
             onClick={handleAdd}
             disabled={saving}
-            className="mt-1 rounded-lg bg-sage-800 px-4 py-2 text-xs font-medium uppercase tracking-wide text-cream disabled:opacity-60"
+            className="rounded-md bg-[#1a73e8] px-4 py-2 text-sm font-medium text-white hover:bg-[#1765cc] disabled:opacity-60"
           >
             {saving ? 'Adding…' : 'Add'}
           </button>
@@ -67,19 +65,19 @@ export default function OptionSelect({ id, label, value, onChange, options, onAd
               setNewValue('');
               setError('');
             }}
-            className="mt-1 rounded-lg border border-sage-200 px-4 py-2 text-xs font-medium uppercase tracking-wide text-sage-600"
+            className="rounded-md border border-[#dadce0] px-4 py-2 text-sm font-medium text-[#3c4043] hover:bg-[#f8f9fa]"
           >
             Cancel
           </button>
         </div>
-        {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+        {error && <p className="mt-1 text-sm text-[#d93025]">{error}</p>}
       </div>
     );
   }
 
   return (
     <div>
-      <label htmlFor={id} className="text-sm font-medium text-sage-700">
+      <label htmlFor={id} className="text-sm font-medium text-[#3c4043]">
         {label}
       </label>
       <select
@@ -92,7 +90,7 @@ export default function OptionSelect({ id, label, value, onChange, options, onAd
           }
           onChange(event.target.value);
         }}
-        className={inputClasses}
+        className={fieldClasses}
       >
         <option value="">Select {label.toLowerCase()}</option>
         {allOptions.map((option) => (

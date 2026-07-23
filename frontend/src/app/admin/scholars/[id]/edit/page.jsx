@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Section from '../../../../../components/ui/Section.jsx';
+import AdminPageHeader from '../../../../../components/admin/ui/AdminPageHeader.jsx';
+import AdminCard from '../../../../../components/admin/ui/AdminCard.jsx';
 import ScholarForm from '../../../../../components/admin/ScholarForm.jsx';
-import RequireAuth from '../../../../../components/admin/RequireAuth.jsx';
 import { useAuth } from '../../../../../context/AuthContext.jsx';
 import { fetchScholarById, updateScholar } from '../../../../../api/client.js';
 
-function AdminScholarEdit() {
+export default function AdminScholarEditPage() {
   const { id } = useParams();
   const { token } = useAuth();
   const router = useRouter();
@@ -38,31 +38,25 @@ function AdminScholarEdit() {
   }
 
   return (
-    <Section maxWidth="max-w-2xl">
-      <h1 className="text-3xl font-semibold text-sage-900">Edit Scholar</h1>
-      <div className="mt-10">
-        {loading ? (
-          <p className="text-center text-sage-500">Loading…</p>
-        ) : !scholar ? (
-          <p className="text-center text-red-600">{error || 'Scholar not found.'}</p>
-        ) : (
-          <ScholarForm
-            initialScholar={scholar}
-            onSubmit={handleSubmit}
-            submitLabel="Save Changes"
-            submitting={submitting}
-            error={error}
-          />
-        )}
-      </div>
-    </Section>
-  );
-}
-
-export default function AdminScholarEditPage() {
-  return (
-    <RequireAuth>
-      <AdminScholarEdit />
-    </RequireAuth>
+    <div className="mx-auto max-w-2xl">
+      <AdminPageHeader title="Edit Scholar" backTo="/admin" backLabel="All Scholars" />
+      {loading ? (
+        <AdminCard>
+          <p className="text-center text-sm text-[#5f6368]">Loading…</p>
+        </AdminCard>
+      ) : !scholar ? (
+        <AdminCard>
+          <p className="text-center text-sm text-[#d93025]">{error || 'Scholar not found.'}</p>
+        </AdminCard>
+      ) : (
+        <ScholarForm
+          initialScholar={scholar}
+          onSubmit={handleSubmit}
+          submitLabel="Save Changes"
+          submitting={submitting}
+          error={error}
+        />
+      )}
+    </div>
   );
 }

@@ -2,13 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Section from '../../../../components/ui/Section.jsx';
+import AdminPageHeader from '../../../../components/admin/ui/AdminPageHeader.jsx';
 import StoryForm from '../../../../components/admin/StoryForm.jsx';
-import RequireAuth from '../../../../components/admin/RequireAuth.jsx';
 import { useAuth } from '../../../../context/AuthContext.jsx';
 import { createStory } from '../../../../api/client.js';
 
-function AdminStoryNew() {
+export default function AdminStoryNewPage() {
   const { token } = useAuth();
   const router = useRouter();
   const [error, setError] = useState('');
@@ -28,19 +27,9 @@ function AdminStoryNew() {
   }
 
   return (
-    <Section maxWidth="max-w-2xl">
-      <h1 className="text-3xl font-semibold text-sage-900">Add Story</h1>
-      <div className="mt-10">
-        <StoryForm onSubmit={handleSubmit} submitLabel="Add Story" submitting={submitting} error={error} />
-      </div>
-    </Section>
-  );
-}
-
-export default function AdminStoryNewPage() {
-  return (
-    <RequireAuth>
-      <AdminStoryNew />
-    </RequireAuth>
+    <div className="mx-auto max-w-2xl">
+      <AdminPageHeader title="Add Story" backTo="/admin/stories" backLabel="Stories" />
+      <StoryForm onSubmit={handleSubmit} submitLabel="Add Story" submitting={submitting} error={error} />
+    </div>
   );
 }
