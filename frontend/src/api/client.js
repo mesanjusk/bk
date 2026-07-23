@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://bk-vdkf.onrender.com/api';
+const API_URL = '/api';
 
 async function request(path, { method = 'GET', body, token } = {}) {
   const headers = {};
