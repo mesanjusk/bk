@@ -1,19 +1,23 @@
 {
-  "name": "mita-foundation-frontend",
-  "version": "2.0.0",
+  "name": "badhte-kadam",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node scripts/seedScholars.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.0.0",
+    "cloudinary": "^2.5.1",
     "framer-motion": "^11.11.17",
     "gsap": "^3.12.5",
+    "jsonwebtoken": "^9.0.2",
     "konva": "^10.3.0",
+    "mongoose": "^8.5.1",
     "next": "^15.0.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -22,6 +26,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-next": "^15.0.3",
     "postcss": "^8.4.41",
