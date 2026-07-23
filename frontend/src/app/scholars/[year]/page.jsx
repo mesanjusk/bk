@@ -7,13 +7,13 @@ import { motion } from 'framer-motion';
 import Section from '../../../components/ui/Section.jsx';
 import PageFlip from '../../../components/scholars/PageFlip.jsx';
 import { fetchScholarsByYear } from '../../../api/client.js';
-import { scholarsFallback } from '../../../data/scholarsFallback.js';
 import { getYearNote } from '../../../data/siteContent.js';
 
 export default function ScholarYearDetail() {
   const { year } = useParams();
   const [scholars, setScholars] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const note = getYearNote(Number(year));
 
   useEffect(() => {
@@ -21,12 +21,10 @@ export default function ScholarYearDetail() {
 
     fetchScholarsByYear(year)
       .then((data) => {
-        if (isMounted) {
-          setScholars(data.length ? data : scholarsFallback.filter((s) => String(s.year) === year));
-        }
+        if (isMounted) setScholars(data);
       })
       .catch(() => {
-        if (isMounted) setScholars(scholarsFallback.filter((s) => String(s.year) === year));
+        if (isMounted) setError(true);
       })
       .finally(() => {
         if (isMounted) setLoading(false);
@@ -45,6 +43,8 @@ export default function ScholarYearDetail() {
 
       {loading ? (
         <p className="mt-16 text-center text-sage-500">Turning to this volume…</p>
+      ) : error ? (
+        <p className="mt-16 text-center text-sage-500">Unable to load this volume right now.</p>
       ) : (
         <motion.div
           initial={{ opacity: 0, rotateX: -6, y: 24 }}

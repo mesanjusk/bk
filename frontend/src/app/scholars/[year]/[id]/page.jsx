@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Section from '../../../../components/ui/Section.jsx';
 import { fetchScholarById } from '../../../../api/client.js';
-import { scholarsFallback } from '../../../../data/scholarsFallback.js';
 
 export default function ScholarDetail() {
   const { year, id } = useParams();
@@ -23,13 +22,7 @@ export default function ScholarDetail() {
         if (isMounted) setScholar(data);
       })
       .catch(() => {
-        const fallback = scholarsFallback.find((s) => s._id === id);
-        if (!isMounted) return;
-        if (fallback) {
-          setScholar(fallback);
-        } else {
-          setNotFound(true);
-        }
+        if (isMounted) setNotFound(true);
       })
       .finally(() => {
         if (isMounted) setLoading(false);

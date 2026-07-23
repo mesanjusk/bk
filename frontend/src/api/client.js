@@ -32,6 +32,10 @@ export function fetchYears() {
   return request('/scholars/years');
 }
 
+export function fetchScholarStats() {
+  return request('/scholars/stats');
+}
+
 export function fetchScholarById(id) {
   return request(`/scholars/${id}`);
 }

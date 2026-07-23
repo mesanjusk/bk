@@ -4,22 +4,22 @@ import { useEffect, useState } from 'react';
 import Section from '../../components/ui/Section.jsx';
 import BookShelf from '../../components/scholars/BookShelf.jsx';
 import { fetchYears } from '../../api/client.js';
-import { getFallbackYears } from '../../data/scholarsFallback.js';
 import { library } from '../../data/siteContent.js';
 
 export default function Scholars() {
   const [years, setYears] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
     fetchYears()
       .then((data) => {
-        if (isMounted) setYears(data.length ? data : getFallbackYears());
+        if (isMounted) setYears(data);
       })
       .catch(() => {
-        if (isMounted) setYears(getFallbackYears());
+        if (isMounted) setError(true);
       })
       .finally(() => {
         if (isMounted) setLoading(false);
@@ -41,6 +41,10 @@ export default function Scholars() {
       <div className="mt-16">
         {loading ? (
           <p className="text-center text-sage-500">Opening the archive…</p>
+        ) : error ? (
+          <p className="text-center text-sage-500">Unable to load the archive right now.</p>
+        ) : years.length === 0 ? (
+          <p className="text-center text-sage-500">No scholar records yet.</p>
         ) : (
           <BookShelf years={years} />
         )}

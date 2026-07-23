@@ -7,8 +7,7 @@ import Container from '../ui/Container.jsx';
 import MediaFrame from '../ui/MediaFrame.jsx';
 import EditorialVisual from './EditorialVisual.jsx';
 import { content } from '../../data/content.js';
-import { impactStats } from '../../data/siteContent.js';
-import { fetchSettings } from '../../api/client.js';
+import { fetchSettings, fetchScholarStats } from '../../api/client.js';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -22,7 +21,7 @@ const fadeUp = {
 export default function Hero() {
   const { title, subtitle, ctaPrimary, ctaSecondary } = content.hero;
   const [heroMedia, setHeroMedia] = useState(null);
-  const scholarsFigure = impactStats.find((stat) => stat.label === 'Scholars');
+  const [scholarCount, setScholarCount] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -31,6 +30,11 @@ export default function Hero() {
         if (isMounted && settings.heroMediaUrl) {
           setHeroMedia({ type: settings.heroMediaType, src: settings.heroMediaUrl });
         }
+      })
+      .catch(() => {});
+    fetchScholarStats()
+      .then((stats) => {
+        if (isMounted) setScholarCount(stats.scholars);
       })
       .catch(() => {});
     return () => {
@@ -92,7 +96,10 @@ export default function Hero() {
               className="shadow-lift"
             />
           ) : (
-            <EditorialVisual figure={scholarsFigure?.value || '150+'} caption="Scholars supported" />
+            <EditorialVisual
+              figure={scholarCount === null ? '—' : scholarCount}
+              caption="Scholars supported"
+            />
           )}
         </motion.div>
       </Container>

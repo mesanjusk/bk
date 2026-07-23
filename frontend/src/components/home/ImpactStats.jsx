@@ -1,9 +1,34 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Chapter from '../ui/Chapter.jsx';
 import { Stagger, StaggerItem } from '../ui/Stagger.jsx';
 import CountUp from '../ui/CountUp.jsx';
-import { impactStats, about } from '../../data/siteContent.js';
+import { fetchScholarStats } from '../../api/client.js';
+import { about, programs } from '../../data/siteContent.js';
 
 export default function ImpactStats() {
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetchScholarStats().then((data) => {
+      if (isMounted) setStats(data);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const impactStats = [
+    { label: 'Scholars', value: stats?.scholars ?? 0 },
+    { label: 'Years', value: stats?.years ?? 0 },
+    { label: 'States', value: stats?.states ?? 0 },
+    { label: 'Programs', value: programs.length },
+  ];
+
   return (
     <Chapter
       id="why-choose-us"
@@ -19,7 +44,7 @@ export default function ImpactStats() {
             className="rounded-3xl bg-white p-8 shadow-card transition-shadow duration-300 hover:shadow-lift"
           >
             <p className="font-serif text-4xl font-medium text-ink sm:text-5xl">
-              <CountUp value={stat.value} />
+              {stats ? <CountUp value={stat.value} /> : '—'}
             </p>
             <p className="mt-3 text-xs font-semibold uppercase tracking-[0.25em] text-muted">{stat.label}</p>
           </StaggerItem>
