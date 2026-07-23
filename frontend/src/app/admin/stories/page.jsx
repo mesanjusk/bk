@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Section from '../../../components/ui/Section.jsx';
-import Button from '../../../components/ui/Button.jsx';
-import RequireAuth from '../../../components/admin/RequireAuth.jsx';
+import AdminPageHeader from '../../../components/admin/ui/AdminPageHeader.jsx';
+import AdminButton from '../../../components/admin/ui/AdminButton.jsx';
+import AdminCard from '../../../components/admin/ui/AdminCard.jsx';
+import { PlusIcon } from '../../../components/admin/ui/icons.jsx';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { fetchStories, deleteStory } from '../../../api/client.js';
 
-function AdminStoriesDashboard() {
+export default function AdminStoriesPage() {
   const { token } = useAuth();
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,69 +43,68 @@ function AdminStoriesDashboard() {
   }
 
   return (
-    <Section maxWidth="max-w-4xl">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl font-semibold text-sage-900">Manage Stories</h1>
-        <div className="flex gap-3">
-          <Button to="/admin/stories/new">Add Story</Button>
-          <Button to="/admin" variant="secondary">Scholars</Button>
-          <Button to="/admin/settings" variant="secondary">Site Settings</Button>
+    <div className="mx-auto max-w-4xl">
+      <AdminPageHeader
+        title="Stories"
+        description="Testimonials shown on the homepage."
+        actions={
+          <AdminButton to="/admin/stories/new" icon={<PlusIcon className="h-4 w-4" />}>
+            Add Story
+          </AdminButton>
+        }
+      />
+
+      {error && (
+        <div className="mb-6 rounded-md border border-[#fad2cf] bg-[#fce8e6] px-4 py-3 text-sm text-[#d93025]">
+          {error}
         </div>
-      </div>
+      )}
 
-      {error && <p className="mt-6 text-sm text-red-600">{error}</p>}
-
-      <div className="mt-10 overflow-hidden rounded-xl2 bg-white shadow-soft">
+      <AdminCard padded={false} className="overflow-hidden">
         {loading ? (
-          <p className="p-8 text-center text-sage-500">Loading stories…</p>
+          <p className="p-8 text-center text-sm text-[#5f6368]">Loading stories…</p>
         ) : stories.length === 0 ? (
-          <p className="p-8 text-center text-sage-500">No stories recorded yet.</p>
+          <p className="p-8 text-center text-sm text-[#5f6368]">No stories recorded yet.</p>
         ) : (
-          <table className="w-full text-left text-sm">
-            <thead className="border-b border-sage-100 text-xs uppercase tracking-wide text-sage-500">
-              <tr>
-                <th className="px-6 py-4">Name</th>
-                <th className="px-6 py-4">State</th>
-                <th className="px-6 py-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stories.map((story) => (
-                <tr key={story._id} className="border-b border-sage-100 last:border-none">
-                  <td className="px-6 py-4 font-serif font-semibold text-sage-900">{story.name}</td>
-                  <td className="px-6 py-4 text-sage-600">{story.state || '—'}</td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex justify-end gap-4">
-                      <Link
-                        href={`/admin/stories/${story._id}/edit`}
-                        className="text-xs font-medium uppercase tracking-wide text-sage-700 hover:text-sage-900"
-                      >
-                        Edit
-                      </Link>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(story)}
-                        disabled={deletingId === story._id}
-                        className="text-xs font-medium uppercase tracking-wide text-maroon-500 hover:text-maroon-700 disabled:opacity-50"
-                      >
-                        {deletingId === story._id ? 'Removing…' : 'Remove'}
-                      </button>
-                    </div>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="border-b border-[#dadce0] text-xs font-medium text-[#5f6368]">
+                <tr>
+                  <th className="px-6 py-3 font-medium">Name</th>
+                  <th className="px-6 py-3 font-medium">State</th>
+                  <th className="px-6 py-3 text-right font-medium">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {stories.map((story) => (
+                  <tr key={story._id} className="border-b border-[#e8eaed] last:border-none hover:bg-[#f8f9fa]">
+                    <td className="px-6 py-3 font-medium text-[#202124]">{story.name}</td>
+                    <td className="px-6 py-3 text-[#5f6368]">{story.state || '—'}</td>
+                    <td className="px-6 py-3 text-right">
+                      <div className="flex justify-end gap-4">
+                        <Link
+                          href={`/admin/stories/${story._id}/edit`}
+                          className="text-sm font-medium text-[#1a73e8] hover:underline"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(story)}
+                          disabled={deletingId === story._id}
+                          className="text-sm font-medium text-[#d93025] hover:underline disabled:opacity-50"
+                        >
+                          {deletingId === story._id ? 'Removing…' : 'Remove'}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
-      </div>
-    </Section>
-  );
-}
-
-export default function AdminStoriesPage() {
-  return (
-    <RequireAuth>
-      <AdminStoriesDashboard />
-    </RequireAuth>
+      </AdminCard>
+    </div>
   );
 }

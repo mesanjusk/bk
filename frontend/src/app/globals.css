@@ -44,3 +44,14 @@ h4 {
 .link-underline:hover {
   background-size: 100% 1px;
 }
+
+.admin-console {
+  font-family: var(--font-roboto), 'Google Sans', Arial, sans-serif;
+}
+
+.admin-console h1,
+.admin-console h2,
+.admin-console h3,
+.admin-console h4 {
+  font-family: inherit;
+}

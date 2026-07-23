@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { fetchScholarOptions, addScholarOption, uploadImage, createScholar } from '../../api/client.js';
 import OptionSelect from './OptionSelect.jsx';
-
-const inputClasses =
-  'mt-1 w-full rounded-lg border border-sage-200 px-4 py-2 text-sm focus:border-sage-500 focus:outline-none';
+import AdminCard from './ui/AdminCard.jsx';
+import AdminButton from './ui/AdminButton.jsx';
+import { fieldClasses } from './ui/AdminField.jsx';
 
 const emptyForm = { name: '', year: '', category: '', score: '', photoUrl: '' };
 
@@ -92,153 +92,141 @@ export default function QuickAddScholarForm({ onDone }) {
 
   if (step === 'preview') {
     return (
-      <div className="space-y-5 rounded-xl2 bg-white p-8 shadow-soft">
-        <p className="text-xs font-medium uppercase tracking-[0.3em] text-sage-500">Preview</p>
+      <AdminCard className="space-y-5">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#5f6368]">Preview</p>
 
         <div className="flex items-center gap-5">
           {form.photoUrl ? (
             <img
               src={form.photoUrl}
               alt={form.name}
-              className="h-24 w-24 flex-shrink-0 rounded-sm object-cover ring-1 ring-gold-400/30"
+              className="h-24 w-24 flex-shrink-0 rounded object-cover ring-1 ring-[#dadce0]"
             />
           ) : (
-            <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-sm bg-sand text-[10px] uppercase text-sage-400 ring-1 ring-gold-400/30">
+            <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded bg-[#f1f3f4] text-[10px] uppercase text-[#80868b] ring-1 ring-[#dadce0]">
               No photo
             </div>
           )}
           <div>
-            <p className="font-serif text-2xl font-semibold text-sage-900">{form.name}</p>
-            <dl className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-xs uppercase tracking-wide text-sage-500">
+            <p className="text-xl font-medium text-[#202124]">{form.name}</p>
+            <dl className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-[#5f6368]">
               <div className="flex gap-1">
-                <dt className="font-medium">Year</dt>
-                <dd className="normal-case tracking-normal text-sage-700">{form.year}</dd>
+                <dt className="font-medium text-[#3c4043]">Year</dt>
+                <dd>{form.year}</dd>
               </div>
               {form.category && (
                 <div className="flex gap-1">
-                  <dt className="font-medium">Category</dt>
-                  <dd className="normal-case tracking-normal text-sage-700">{form.category}</dd>
+                  <dt className="font-medium text-[#3c4043]">Category</dt>
+                  <dd>{form.category}</dd>
                 </div>
               )}
               {form.score && (
                 <div className="flex gap-1">
-                  <dt className="font-medium">Percentage</dt>
-                  <dd className="normal-case tracking-normal text-sage-700">{form.score}</dd>
+                  <dt className="font-medium text-[#3c4043]">Percentage</dt>
+                  <dd>{form.score}</dd>
                 </div>
               )}
             </dl>
           </div>
         </div>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-[#d93025]">{error}</p>}
 
         <div className="flex gap-3">
-          <button
-            type="button"
-            onClick={() => setStep('form')}
-            disabled={submitting}
-            className="inline-flex items-center justify-center rounded-full border border-sage-600 px-6 py-3 text-xs font-medium uppercase tracking-[0.2em] text-sage-700 transition-colors hover:bg-sage-50 disabled:opacity-60"
-          >
+          <AdminButton variant="secondary" onClick={() => setStep('form')} disabled={submitting}>
             Edit
-          </button>
-          <button
-            type="button"
-            onClick={handleConfirm}
-            disabled={submitting}
-            className="inline-flex items-center justify-center rounded-full bg-sage-800 px-6 py-3 text-xs font-medium uppercase tracking-[0.2em] text-cream shadow-soft ring-1 ring-gold-400/40 transition-colors duration-300 hover:bg-sage-900 disabled:cursor-not-allowed disabled:opacity-60"
-          >
+          </AdminButton>
+          <AdminButton onClick={handleConfirm} disabled={submitting}>
             {submitting ? 'Saving…' : 'Confirm & Add Scholar'}
-          </button>
+          </AdminButton>
         </div>
-      </div>
+      </AdminCard>
     );
   }
 
   return (
-    <form onSubmit={handlePreview} className="space-y-5 rounded-xl2 bg-white p-8 shadow-soft">
-      <div>
-        <label htmlFor="name" className="text-sm font-medium text-sage-700">
-          Name
-        </label>
-        <input
-          id="name"
-          required
-          value={form.name}
-          onChange={(event) => handleChange('name', event.target.value)}
-          className={inputClasses}
-        />
-      </div>
-
-      <div className="grid gap-5 sm:grid-cols-2">
-        <OptionSelect
-          id="year"
-          label="Year"
-          value={form.year}
-          onChange={(value) => handleChange('year', value)}
-          options={options.years}
-          onAddOption={handleAddYear}
-          inputType="number"
-        />
-        <OptionSelect
-          id="category"
-          label="Category"
-          value={form.category}
-          onChange={(value) => handleChange('category', value)}
-          options={options.categories}
-          onAddOption={handleAddCategory}
-          inputType="text"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="score" className="text-sm font-medium text-sage-700">
-          Percentage
-        </label>
-        <input
-          id="score"
-          placeholder="e.g. 94.2%"
-          value={form.score}
-          onChange={(event) => handleChange('score', event.target.value)}
-          className={inputClasses}
-        />
-      </div>
-
-      <div>
-        <label className="text-sm font-medium text-sage-700">Photo</label>
-        <div className="mt-1 flex items-center gap-4">
-          {form.photoUrl ? (
-            <img
-              src={form.photoUrl}
-              alt="Scholar preview"
-              className="h-16 w-16 flex-shrink-0 rounded-sm object-cover ring-1 ring-gold-400/30"
-            />
-          ) : (
-            <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-sm bg-sand text-[10px] uppercase text-sage-400 ring-1 ring-gold-400/30">
-              No photo
-            </div>
-          )}
-          <label className="cursor-pointer rounded-full border border-sage-600 px-4 py-2 text-xs font-medium uppercase tracking-wide text-sage-700 transition-colors hover:bg-sage-50">
-            {uploading ? 'Uploading…' : 'Upload Photo'}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              disabled={uploading}
-              className="hidden"
-            />
+    <form onSubmit={handlePreview}>
+      <AdminCard className="space-y-5">
+        <div>
+          <label htmlFor="name" className="text-sm font-medium text-[#3c4043]">
+            Name
           </label>
+          <input
+            id="name"
+            required
+            value={form.name}
+            onChange={(event) => handleChange('name', event.target.value)}
+            className={fieldClasses}
+          />
         </div>
-      </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+        <div className="grid gap-5 sm:grid-cols-2">
+          <OptionSelect
+            id="year"
+            label="Year"
+            value={form.year}
+            onChange={(value) => handleChange('year', value)}
+            options={options.years}
+            onAddOption={handleAddYear}
+            inputType="number"
+          />
+          <OptionSelect
+            id="category"
+            label="Category"
+            value={form.category}
+            onChange={(value) => handleChange('category', value)}
+            options={options.categories}
+            onAddOption={handleAddCategory}
+            inputType="text"
+          />
+        </div>
 
-      <button
-        type="submit"
-        disabled={uploading}
-        className="inline-flex items-center justify-center rounded-full bg-sage-800 px-6 py-3 text-xs font-medium uppercase tracking-[0.2em] text-cream shadow-soft ring-1 ring-gold-400/40 transition-colors duration-300 hover:bg-sage-900 disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        Preview
-      </button>
+        <div>
+          <label htmlFor="score" className="text-sm font-medium text-[#3c4043]">
+            Percentage
+          </label>
+          <input
+            id="score"
+            placeholder="e.g. 94.2%"
+            value={form.score}
+            onChange={(event) => handleChange('score', event.target.value)}
+            className={fieldClasses}
+          />
+        </div>
+
+        <div>
+          <label className="text-sm font-medium text-[#3c4043]">Photo</label>
+          <div className="mt-1.5 flex items-center gap-4">
+            {form.photoUrl ? (
+              <img
+                src={form.photoUrl}
+                alt="Scholar preview"
+                className="h-16 w-16 flex-shrink-0 rounded object-cover ring-1 ring-[#dadce0]"
+              />
+            ) : (
+              <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded bg-[#f1f3f4] text-[10px] uppercase text-[#80868b] ring-1 ring-[#dadce0]">
+                No photo
+              </div>
+            )}
+            <label className="cursor-pointer rounded-md border border-[#dadce0] bg-white px-4 py-2 text-sm font-medium text-[#3c4043] transition-colors hover:bg-[#f8f9fa]">
+              {uploading ? 'Uploading…' : 'Upload Photo'}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                disabled={uploading}
+                className="hidden"
+              />
+            </label>
+          </div>
+        </div>
+
+        {error && <p className="text-sm text-[#d93025]">{error}</p>}
+
+        <AdminButton type="submit" disabled={uploading}>
+          Preview
+        </AdminButton>
+      </AdminCard>
     </form>
   );
 }

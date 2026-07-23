@@ -1,14 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Section from '../../../components/ui/Section.jsx';
-import Button from '../../../components/ui/Button.jsx';
+import AdminPageHeader from '../../../components/admin/ui/AdminPageHeader.jsx';
+import AdminCard from '../../../components/admin/ui/AdminCard.jsx';
 import MediaFrame from '../../../components/ui/MediaFrame.jsx';
-import RequireAuth from '../../../components/admin/RequireAuth.jsx';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { fetchSettings, updateSettings, uploadImage } from '../../../api/client.js';
 
-function AdminSettings() {
+export default function AdminSettingsPage() {
   const { token } = useAuth();
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -44,36 +43,30 @@ function AdminSettings() {
   }
 
   return (
-    <Section maxWidth="max-w-2xl">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl font-semibold text-sage-900">Site Settings</h1>
-        <div className="flex gap-3">
-          <Button to="/admin" variant="secondary">Scholars</Button>
-          <Button to="/admin/stories" variant="secondary">Stories</Button>
-        </div>
-      </div>
-      <p className="mt-2 text-sm text-sage-600">
-        Replace the homepage hero image or video. It appears immediately across the site.
-      </p>
+    <div className="mx-auto max-w-3xl">
+      <AdminPageHeader
+        title="Site Settings"
+        description="Replace the homepage hero image or video. It appears immediately across the site."
+      />
 
-      <div className="mt-10 rounded-xl2 bg-white p-8 shadow-soft">
-        <p className="text-sm font-medium text-sage-700">Hero Media</p>
+      <AdminCard>
+        <p className="text-sm font-medium text-[#3c4043]">Hero media</p>
 
         {loading ? (
-          <p className="mt-4 text-sm text-sage-500">Loading…</p>
+          <p className="mt-4 text-sm text-[#5f6368]">Loading…</p>
         ) : (
           <>
-            <div className="mt-3 aspect-[4/3] w-full max-w-sm">
+            <div className="mt-3 aspect-[4/3] w-full max-w-sm overflow-hidden rounded-md border border-[#dadce0]">
               {settings?.heroMediaUrl ? (
                 <MediaFrame type={settings.heroMediaType} src={settings.heroMediaUrl} alt="Hero media" />
               ) : (
-                <div className="flex h-full w-full items-center justify-center rounded-xl2 bg-sand text-xs uppercase tracking-wide text-sage-400 ring-1 ring-gold-400/30">
+                <div className="flex h-full w-full items-center justify-center bg-[#f8f9fa] text-xs uppercase tracking-wide text-[#80868b]">
                   No media set
                 </div>
               )}
             </div>
 
-            <label className="mt-5 inline-block cursor-pointer rounded-full border border-sage-600 px-4 py-2 text-xs font-medium uppercase tracking-wide text-sage-700 transition-colors hover:bg-sage-50">
+            <label className="mt-5 inline-block cursor-pointer rounded-md border border-[#dadce0] bg-white px-4 py-2 text-sm font-medium text-[#3c4043] transition-colors hover:bg-[#f8f9fa]">
               {uploading ? 'Uploading…' : 'Upload Image or Video'}
               <input
                 type="file"
@@ -84,19 +77,11 @@ function AdminSettings() {
               />
             </label>
 
-            {saved && <p className="mt-3 text-xs text-sage-600">Saved.</p>}
-            {error && <p className="mt-3 text-xs text-red-600">{error}</p>}
+            {saved && <p className="mt-3 text-sm text-[#188038]">Saved.</p>}
+            {error && <p className="mt-3 text-sm text-[#d93025]">{error}</p>}
           </>
         )}
-      </div>
-    </Section>
-  );
-}
-
-export default function AdminSettingsPage() {
-  return (
-    <RequireAuth>
-      <AdminSettings />
-    </RequireAuth>
+      </AdminCard>
+    </div>
   );
 }

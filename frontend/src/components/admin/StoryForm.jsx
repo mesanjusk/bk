@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { uploadImage } from '../../api/client.js';
+import AdminCard from './ui/AdminCard.jsx';
+import AdminButton from './ui/AdminButton.jsx';
+import { fieldClasses } from './ui/AdminField.jsx';
 
 const emptyForm = {
   name: '',
@@ -26,9 +29,6 @@ function toFormValues(story) {
     extended: story.extended || '',
   };
 }
-
-const inputClasses =
-  'mt-1 w-full rounded-lg border border-sage-200 px-4 py-2 text-sm focus:border-sage-500 focus:outline-none';
 
 export default function StoryForm({ initialStory, onSubmit, submitLabel = 'Save', submitting = false, error }) {
   const { token } = useAuth();
@@ -64,119 +64,117 @@ export default function StoryForm({ initialStory, onSubmit, submitLabel = 'Save'
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 rounded-xl2 bg-white p-8 shadow-soft">
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label htmlFor="name" className="text-sm font-medium text-sage-700">Name</label>
-          <input id="name" name="name" required value={form.name} onChange={handleChange} className={inputClasses} />
+    <form onSubmit={handleSubmit}>
+      <AdminCard className="space-y-5">
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label htmlFor="name" className="text-sm font-medium text-[#3c4043]">Name</label>
+            <input id="name" name="name" required value={form.name} onChange={handleChange} className={fieldClasses} />
+          </div>
+          <div>
+            <label htmlFor="state" className="text-sm font-medium text-[#3c4043]">State</label>
+            <input id="state" name="state" value={form.state} onChange={handleChange} className={fieldClasses} />
+          </div>
         </div>
+
         <div>
-          <label htmlFor="state" className="text-sm font-medium text-sage-700">State</label>
-          <input id="state" name="state" value={form.state} onChange={handleChange} className={inputClasses} />
+          <label className="text-sm font-medium text-[#3c4043]">Photo</label>
+          <div className="mt-1.5 flex items-center gap-4">
+            {form.photoUrl ? (
+              <img
+                src={form.photoUrl}
+                alt="Story preview"
+                className="h-16 w-16 flex-shrink-0 rounded-full object-cover ring-1 ring-[#dadce0]"
+              />
+            ) : (
+              <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-[#f1f3f4] text-[10px] uppercase text-[#80868b] ring-1 ring-[#dadce0]">
+                No photo
+              </div>
+            )}
+
+            <label className="cursor-pointer rounded-md border border-[#dadce0] bg-white px-4 py-2 text-sm font-medium text-[#3c4043] transition-colors hover:bg-[#f8f9fa]">
+              {uploading ? 'Uploading…' : 'Upload Photo'}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                disabled={uploading}
+                className="hidden"
+              />
+            </label>
+          </div>
+
+          {uploadError && <p className="mt-2 text-sm text-[#d93025]">{uploadError}</p>}
+
+          <input
+            id="photoUrl"
+            name="photoUrl"
+            placeholder="or paste an image URL"
+            value={form.photoUrl}
+            onChange={handleChange}
+            className={`${fieldClasses} mt-3`}
+          />
         </div>
-      </div>
 
-      <div>
-        <label className="text-sm font-medium text-sage-700">Photo</label>
-        <div className="mt-1 flex items-center gap-4">
-          {form.photoUrl ? (
-            <img
-              src={form.photoUrl}
-              alt="Story preview"
-              className="h-16 w-16 flex-shrink-0 rounded-full object-cover ring-1 ring-gold-400/30"
-            />
-          ) : (
-            <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-sand text-[10px] uppercase text-sage-400 ring-1 ring-gold-400/30">
-              No photo
-            </div>
-          )}
+        <div>
+          <label htmlFor="before" className="text-sm font-medium text-[#3c4043]">Before</label>
+          <textarea
+            id="before"
+            name="before"
+            rows="2"
+            required
+            value={form.before}
+            onChange={handleChange}
+            className={fieldClasses}
+          />
+        </div>
 
-          <label className="cursor-pointer rounded-full border border-sage-600 px-4 py-2 text-xs font-medium uppercase tracking-wide text-sage-700 transition-colors hover:bg-sage-50">
-            {uploading ? 'Uploading…' : 'Upload Photo'}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              disabled={uploading}
-              className="hidden"
-            />
+        <div>
+          <label htmlFor="after" className="text-sm font-medium text-[#3c4043]">After</label>
+          <textarea
+            id="after"
+            name="after"
+            rows="2"
+            required
+            value={form.after}
+            onChange={handleChange}
+            className={fieldClasses}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="narrative" className="text-sm font-medium text-[#3c4043]">Narrative</label>
+          <textarea
+            id="narrative"
+            name="narrative"
+            rows="4"
+            required
+            value={form.narrative}
+            onChange={handleChange}
+            className={fieldClasses}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="extended" className="text-sm font-medium text-[#3c4043]">
+            Extended (shown behind &ldquo;Read More&rdquo;)
           </label>
+          <textarea
+            id="extended"
+            name="extended"
+            rows="4"
+            value={form.extended}
+            onChange={handleChange}
+            className={fieldClasses}
+          />
         </div>
 
-        {uploadError && <p className="mt-2 text-xs text-red-600">{uploadError}</p>}
+        {error && <p className="text-sm text-[#d93025]">{error}</p>}
 
-        <input
-          id="photoUrl"
-          name="photoUrl"
-          placeholder="or paste an image URL"
-          value={form.photoUrl}
-          onChange={handleChange}
-          className={`${inputClasses} mt-3`}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="before" className="text-sm font-medium text-sage-700">Before</label>
-        <textarea
-          id="before"
-          name="before"
-          rows="2"
-          required
-          value={form.before}
-          onChange={handleChange}
-          className={inputClasses}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="after" className="text-sm font-medium text-sage-700">After</label>
-        <textarea
-          id="after"
-          name="after"
-          rows="2"
-          required
-          value={form.after}
-          onChange={handleChange}
-          className={inputClasses}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="narrative" className="text-sm font-medium text-sage-700">Narrative</label>
-        <textarea
-          id="narrative"
-          name="narrative"
-          rows="4"
-          required
-          value={form.narrative}
-          onChange={handleChange}
-          className={inputClasses}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="extended" className="text-sm font-medium text-sage-700">
-          Extended (shown behind &ldquo;Read More&rdquo;)
-        </label>
-        <textarea
-          id="extended"
-          name="extended"
-          rows="4"
-          value={form.extended}
-          onChange={handleChange}
-          className={inputClasses}
-        />
-      </div>
-
-      {error && <p className="text-sm text-red-600">{error}</p>}
-
-      <button
-        type="submit"
-        disabled={submitting || uploading}
-        className="inline-flex items-center justify-center rounded-full bg-sage-800 px-6 py-3 text-xs font-medium uppercase tracking-[0.2em] text-cream shadow-soft ring-1 ring-gold-400/40 transition-colors duration-300 hover:bg-sage-900 disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {submitting ? 'Saving…' : submitLabel}
-      </button>
+        <AdminButton type="submit" disabled={submitting || uploading}>
+          {submitting ? 'Saving…' : submitLabel}
+        </AdminButton>
+      </AdminCard>
     </form>
   );
 }
