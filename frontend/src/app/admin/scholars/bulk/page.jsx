@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Section from '../../../../components/ui/Section.jsx';
 import Button from '../../../../components/ui/Button.jsx';
 import RequireAuth from '../../../../components/admin/RequireAuth.jsx';
+import OptionSelect from '../../../../components/admin/OptionSelect.jsx';
 import { useAuth } from '../../../../context/AuthContext.jsx';
-import { uploadImage, createScholar } from '../../../../api/client.js';
+import { uploadImage, createScholar, fetchScholarOptions, addScholarOption } from '../../../../api/client.js';
 import { parseScholarFilename } from '../../../../lib/parseScholarFilename.js';
 
 const inputClasses =
@@ -19,8 +20,27 @@ function AdminScholarsBulk() {
   const [year, setYear] = useState('');
   const [category, setCategory] = useState('');
   const [descriptionTemplate, setDescriptionTemplate] = useState('');
+  const [options, setOptions] = useState({ years: [], categories: [] });
   const [rows, setRows] = useState([]);
   const [running, setRunning] = useState(false);
+
+  useEffect(() => {
+    fetchScholarOptions()
+      .then(setOptions)
+      .catch(() => {});
+  }, []);
+
+  async function handleAddYear(value) {
+    const { years } = await addScholarOption('year', value, token);
+    setOptions((prev) => ({ ...prev, years }));
+    return Number(value);
+  }
+
+  async function handleAddCategory(value) {
+    const { categories } = await addScholarOption('category', value, token);
+    setOptions((prev) => ({ ...prev, categories }));
+    return value;
+  }
 
   function handleFilesSelected(event) {
     const files = Array.from(event.target.files || []);
@@ -116,27 +136,24 @@ function AdminScholarsBulk() {
       </p>
 
       <div className="mt-8 grid gap-5 rounded-xl2 bg-white p-8 shadow-soft sm:grid-cols-3">
-        <div>
-          <label htmlFor="bulk-year" className="text-sm font-medium text-sage-700">Year</label>
-          <input
-            id="bulk-year"
-            type="number"
-            required
-            value={year}
-            onChange={(event) => setYear(event.target.value)}
-            className={inputClasses}
-          />
-        </div>
-        <div>
-          <label htmlFor="bulk-category" className="text-sm font-medium text-sage-700">Category</label>
-          <input
-            id="bulk-category"
-            placeholder="e.g. XII Commerce State, CA, JEE"
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-            className={inputClasses}
-          />
-        </div>
+        <OptionSelect
+          id="bulk-year"
+          label="Year"
+          value={year}
+          onChange={setYear}
+          options={options.years}
+          onAddOption={handleAddYear}
+          inputType="number"
+        />
+        <OptionSelect
+          id="bulk-category"
+          label="Category"
+          value={category}
+          onChange={setCategory}
+          options={options.categories}
+          onAddOption={handleAddCategory}
+          inputType="text"
+        />
         <div>
           <label htmlFor="bulk-description" className="text-sm font-medium text-sage-700">
             Description (optional)

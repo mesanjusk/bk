@@ -9,7 +9,7 @@ const scholarSchema = new mongoose.Schema(
     score: { type: String, default: '' },
     category: { type: String, default: '', trim: true },
     order: { type: Number, default: 0, index: true },
-    description: { type: String, required: true },
+    description: { type: String, default: '' },
     bio: { type: String, default: '' },
     achievements: { type: [String], default: [] },
   },
