@@ -7,6 +7,8 @@ const scholarSchema = new mongoose.Schema(
     photoUrl: { type: String, default: '' },
     state: { type: String, default: '' },
     score: { type: String, default: '' },
+    category: { type: String, default: '', trim: true },
+    order: { type: Number, default: 0, index: true },
     description: { type: String, required: true },
     bio: { type: String, default: '' },
     achievements: { type: [String], default: [] },
