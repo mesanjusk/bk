@@ -12,7 +12,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const year = searchParams.get('year');
     const filter = year ? { year: Number(year) } : {};
-    const scholars = await Scholar.find(filter).sort({ year: -1, name: 1 });
+    const scholars = await Scholar.find(filter).sort({ year: -1, order: 1, name: 1 });
     return NextResponse.json(scholars);
   } catch (error) {
     return handleApiError(error);
@@ -24,10 +24,17 @@ export async function POST(request) {
     requireAdmin(request);
     await connectDB();
 
-    const { name, year, description, photoUrl, state, score, bio, achievements } = await request.json();
+    const { name, year, description, photoUrl, state, score, category, order, bio, achievements } =
+      await request.json();
 
     if (!name || !year || !description) {
       throw new ApiError(400, 'Name, year and description are required.');
+    }
+
+    let resolvedOrder = order;
+    if (resolvedOrder === undefined || resolvedOrder === null || resolvedOrder === '') {
+      const last = await Scholar.findOne({ year }).sort({ order: -1 }).select('order');
+      resolvedOrder = last ? last.order + 1 : 1;
     }
 
     const scholar = await Scholar.create({
@@ -37,6 +44,8 @@ export async function POST(request) {
       photoUrl,
       state,
       score,
+      category,
+      order: resolvedOrder,
       bio,
       achievements,
     });

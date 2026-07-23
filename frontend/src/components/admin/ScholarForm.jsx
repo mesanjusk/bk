@@ -9,6 +9,8 @@ const emptyForm = {
   year: '',
   state: '',
   score: '',
+  category: '',
+  order: '',
   photoUrl: '',
   description: '',
   bio: '',
@@ -22,6 +24,8 @@ function toFormValues(scholar) {
     year: scholar.year ?? '',
     state: scholar.state || '',
     score: scholar.score || '',
+    category: scholar.category || '',
+    order: scholar.order ?? '',
     photoUrl: scholar.photoUrl || '',
     description: scholar.description || '',
     bio: scholar.bio || '',
@@ -67,6 +71,8 @@ export default function ScholarForm({ initialScholar, onSubmit, submitLabel = 'S
       year: Number(form.year),
       state: form.state,
       score: form.score,
+      category: form.category,
+      order: form.order === '' ? undefined : Number(form.order),
       photoUrl: form.photoUrl,
       description: form.description,
       bio: form.bio,
@@ -107,6 +113,29 @@ export default function ScholarForm({ initialScholar, onSubmit, submitLabel = 'S
             name="score"
             placeholder="e.g. 94.2%"
             value={form.score}
+            onChange={handleChange}
+            className={inputClasses}
+          />
+        </div>
+        <div>
+          <label htmlFor="category" className="text-sm font-medium text-sage-700">Category</label>
+          <input
+            id="category"
+            name="category"
+            placeholder="e.g. XII Commerce State, CA, JEE, NEET"
+            value={form.category}
+            onChange={handleChange}
+            className={inputClasses}
+          />
+        </div>
+        <div>
+          <label htmlFor="order" className="text-sm font-medium text-sage-700">Display order</label>
+          <input
+            id="order"
+            name="order"
+            type="number"
+            placeholder="Lower shows first"
+            value={form.order}
             onChange={handleChange}
             className={inputClasses}
           />

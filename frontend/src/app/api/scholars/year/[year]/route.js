@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
   try {
     await connectDB();
     const { year } = await params;
-    const scholars = await Scholar.find({ year: Number(year) }).sort({ name: 1 });
+    const scholars = await Scholar.find({ year: Number(year) }).sort({ order: 1, name: 1 });
     return NextResponse.json(scholars);
   } catch (error) {
     return handleApiError(error);

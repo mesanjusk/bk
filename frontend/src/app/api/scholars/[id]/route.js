@@ -26,11 +26,12 @@ export async function PUT(request, { params }) {
     await connectDB();
 
     const { id } = await params;
-    const { name, year, description, photoUrl, state, score, bio, achievements } = await request.json();
+    const { name, year, description, photoUrl, state, score, category, order, bio, achievements } =
+      await request.json();
 
     const scholar = await Scholar.findByIdAndUpdate(
       id,
-      { name, year, description, photoUrl, state, score, bio, achievements },
+      { name, year, description, photoUrl, state, score, category, order, bio, achievements },
       { new: true, runValidators: true }
     );
 

@@ -26,6 +26,12 @@ export default function ScholarRecord({ scholar, index }) {
         {scholar.name}
       </Link>
 
+      {scholar.category && (
+        <span className="mt-3 rounded-full bg-sand px-3 py-1 text-[10px] font-medium uppercase tracking-wide text-sage-600 ring-1 ring-gold-400/30">
+          {scholar.category}
+        </span>
+      )}
+
       <dl className="mt-2 flex flex-wrap justify-center gap-x-6 gap-y-1 text-xs uppercase tracking-wide text-sage-500">
         {scholar.state && (
           <div className="flex gap-1">
