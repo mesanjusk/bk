@@ -110,7 +110,7 @@ function AdminDashboard() {
                     <th className="px-6 py-4">Order</th>
                     <th className="px-6 py-4">Name</th>
                     <th className="px-6 py-4">Category</th>
-                    <th className="px-6 py-4">State</th>
+                    <th className="px-6 py-4">Percentage</th>
                     <th className="px-6 py-4 text-right">Actions</th>
                   </tr>
                 </thead>
@@ -141,7 +141,7 @@ function AdminDashboard() {
                       </td>
                       <td className="px-6 py-4 font-serif font-semibold text-sage-900">{scholar.name}</td>
                       <td className="px-6 py-4 text-sage-600">{scholar.category || '—'}</td>
-                      <td className="px-6 py-4 text-sage-600">{scholar.state || '—'}</td>
+                      <td className="px-6 py-4 text-sage-600">{scholar.score || '—'}</td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex justify-end gap-4">
                           <Link
